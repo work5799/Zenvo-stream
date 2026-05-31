@@ -1,0 +1,49 @@
+{
+  "siteName": "Zenvo  Stream",
+  "siteLogo": "",
+  "heroTitle": "Live TV. Reimagined.",
+  "heroSubtitle": "Stream 1000+ premium channels worldwide in stunning quality.",
+  "maintenanceMode": false,
+  "featuredId": "",
+  "adminUsername": "admin",
+  "adminPasswordHash": "$2b$10$9G8GTvQaTvSR1KTHWhuGZuIGuv54aQBClyZnvT7XNxdKH8iJFaq/y",
+  "categories": [
+    "Bangladesh",
+    "Sports",
+    "News",
+    "Movies",
+    "Kids",
+    "Music",
+    "Other"
+  ],
+  "countries": [
+    {
+      "name": "Bangladesh",
+      "code": "🇧🇩"
+    },
+    {
+      "name": "India",
+      "code": "🇮🇳"
+    },
+    {
+      "name": "Pakistan",
+      "code": "🇵🇰"
+    },
+    {
+      "name": "USA",
+      "code": "🇺🇸"
+    },
+    {
+      "name": "UK",
+      "code": "🇬🇧"
+    },
+    {
+      "name": "UAE",
+      "code": "🇦🇪"
+    },
+    {
+      "name": "Global",
+      "code": "🌐"
+    }
+  ]
+}

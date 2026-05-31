@@ -1,0 +1,3429 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "data_access_layer",
+        "label": "Data Access Layer",
+        "nodes": [
+          "server_js",
+          "channels_json",
+          "settings_json"
+        ],
+        "relation": "implement",
+        "confidence": "INFERRED",
+        "confidence_score": 0.95,
+        "source_file": "server.js"
+      },
+      {
+        "id": "streaming_architecture",
+        "label": "Streaming Platform Architecture",
+        "nodes": [
+          "server_js",
+          "app_js",
+          "admin_js"
+        ],
+        "relation": "participate_in",
+        "confidence": "INFERRED",
+        "confidence_score": 0.85,
+        "source_file": "README.md"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "id": "package_json",
+      "community": 2,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "id": "zenvo_stream_package_name",
+      "community": 2,
+      "norm_label": "name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "id": "zenvo_stream_package_version",
+      "community": 2,
+      "norm_label": "version"
+    },
+    {
+      "label": "description",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "id": "zenvo_stream_package_description",
+      "community": 2,
+      "norm_label": "description"
+    },
+    {
+      "label": "main",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "id": "zenvo_stream_package_main",
+      "community": 2,
+      "norm_label": "main"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "id": "zenvo_stream_package_scripts",
+      "community": 2,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "start",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "id": "zenvo_stream_package_scripts_start",
+      "community": 2,
+      "norm_label": "start"
+    },
+    {
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "id": "zenvo_stream_package_scripts_dev",
+      "community": 2,
+      "norm_label": "dev"
+    },
+    {
+      "label": "keywords",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "id": "zenvo_stream_package_keywords",
+      "community": 2,
+      "norm_label": "keywords"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "id": "zenvo_stream_package_author",
+      "community": 2,
+      "norm_label": "author"
+    },
+    {
+      "label": "license",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "id": "zenvo_stream_package_license",
+      "community": 2,
+      "norm_label": "license"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "id": "zenvo_stream_package_dependencies",
+      "community": 2,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "bcrypt",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "id": "zenvo_stream_package_dependencies_bcrypt",
+      "community": 2,
+      "norm_label": "bcrypt"
+    },
+    {
+      "label": "cors",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "id": "zenvo_stream_package_dependencies_cors",
+      "community": 2,
+      "norm_label": "cors"
+    },
+    {
+      "label": "express",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "id": "zenvo_stream_package_dependencies_express",
+      "community": 2,
+      "norm_label": "express"
+    },
+    {
+      "label": "express-rate-limit",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "id": "zenvo_stream_package_dependencies_express_rate_limit",
+      "community": 2,
+      "norm_label": "express-rate-limit"
+    },
+    {
+      "label": "jsonwebtoken",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "id": "zenvo_stream_package_dependencies_jsonwebtoken",
+      "community": 2,
+      "norm_label": "jsonwebtoken"
+    },
+    {
+      "label": "multer",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "id": "zenvo_stream_package_dependencies_multer",
+      "community": 2,
+      "norm_label": "multer"
+    },
+    {
+      "label": "uuid",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "id": "zenvo_stream_package_dependencies_uuid",
+      "community": 2,
+      "norm_label": "uuid"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "id": "zenvo_stream_package_devdependencies",
+      "community": 2,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "nodemon",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "id": "zenvo_stream_package_devdependencies_nodemon",
+      "community": 2,
+      "norm_label": "nodemon"
+    },
+    {
+      "label": "server.js",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L1",
+      "id": "server_js",
+      "community": 0,
+      "norm_label": "server.js"
+    },
+    {
+      "label": "express",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L6",
+      "id": "zenvo_stream_server_express",
+      "community": 0,
+      "norm_label": "express"
+    },
+    {
+      "label": "cors",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L7",
+      "id": "zenvo_stream_server_cors",
+      "community": 0,
+      "norm_label": "cors"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L8",
+      "id": "zenvo_stream_server_fs",
+      "community": 0,
+      "norm_label": "fs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L9",
+      "id": "zenvo_stream_server_path",
+      "community": 0,
+      "norm_label": "path"
+    },
+    {
+      "label": "jwt",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L10",
+      "id": "zenvo_stream_server_jwt",
+      "community": 0,
+      "norm_label": "jwt"
+    },
+    {
+      "label": "bcrypt",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L11",
+      "id": "zenvo_stream_server_bcrypt",
+      "community": 0,
+      "norm_label": "bcrypt"
+    },
+    {
+      "label": "{ v4: uuidv4 }",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L12",
+      "id": "zenvo_stream_server_v4_uuidv4",
+      "community": 0,
+      "norm_label": "{ v4: uuidv4 }"
+    },
+    {
+      "label": "rateLimit",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L13",
+      "id": "zenvo_stream_server_ratelimit",
+      "community": 0,
+      "norm_label": "ratelimit"
+    },
+    {
+      "label": "multer",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L14",
+      "id": "zenvo_stream_server_multer",
+      "community": 0,
+      "norm_label": "multer"
+    },
+    {
+      "label": "https",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L15",
+      "id": "zenvo_stream_server_https",
+      "community": 0,
+      "norm_label": "https"
+    },
+    {
+      "label": "http",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L16",
+      "id": "zenvo_stream_server_http",
+      "community": 0,
+      "norm_label": "http"
+    },
+    {
+      "label": "app",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L18",
+      "id": "zenvo_stream_server_app",
+      "community": 0,
+      "norm_label": "app"
+    },
+    {
+      "label": "loginLimiter",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L27",
+      "id": "zenvo_stream_server_loginlimiter",
+      "community": 0,
+      "norm_label": "loginlimiter"
+    },
+    {
+      "label": "DATA_DIR",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L36",
+      "id": "zenvo_stream_server_data_dir",
+      "community": 0,
+      "norm_label": "data_dir"
+    },
+    {
+      "label": "CHANNELS_FILE",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L37",
+      "id": "zenvo_stream_server_channels_file",
+      "community": 0,
+      "norm_label": "channels_file"
+    },
+    {
+      "label": "SETTINGS_FILE",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L38",
+      "id": "zenvo_stream_server_settings_file",
+      "community": 0,
+      "norm_label": "settings_file"
+    },
+    {
+      "label": "UPLOADS_DIR",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L39",
+      "id": "zenvo_stream_server_uploads_dir",
+      "community": 0,
+      "norm_label": "uploads_dir"
+    },
+    {
+      "label": "ALLOWED_IMG",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L45",
+      "id": "zenvo_stream_server_allowed_img",
+      "community": 0,
+      "norm_label": "allowed_img"
+    },
+    {
+      "label": "storage",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L46",
+      "id": "zenvo_stream_server_storage",
+      "community": 0,
+      "norm_label": "storage"
+    },
+    {
+      "label": "upload",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L53",
+      "id": "zenvo_stream_server_upload",
+      "community": 0,
+      "norm_label": "upload"
+    },
+    {
+      "label": "m3uStorage",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L63",
+      "id": "zenvo_stream_server_m3ustorage",
+      "community": 0,
+      "norm_label": "m3ustorage"
+    },
+    {
+      "label": "uploadM3U",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L70",
+      "id": "zenvo_stream_server_uploadm3u",
+      "community": 0,
+      "norm_label": "uploadm3u"
+    },
+    {
+      "label": "ensureDataFiles()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L84",
+      "id": "zenvo_stream_server_ensuredatafiles",
+      "community": 10,
+      "norm_label": "ensuredatafiles()"
+    },
+    {
+      "label": "readChannels()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L189",
+      "id": "zenvo_stream_server_readchannels",
+      "community": 10,
+      "norm_label": "readchannels()"
+    },
+    {
+      "label": "writeChannels()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L201",
+      "id": "zenvo_stream_server_writechannels",
+      "community": 0,
+      "norm_label": "writechannels()"
+    },
+    {
+      "label": "readSettings()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L204",
+      "id": "zenvo_stream_server_readsettings",
+      "community": 10,
+      "norm_label": "readsettings()"
+    },
+    {
+      "label": "writeSettings()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L208",
+      "id": "zenvo_stream_server_writesettings",
+      "community": 0,
+      "norm_label": "writesettings()"
+    },
+    {
+      "label": "authMiddleware()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L215",
+      "id": "zenvo_stream_server_authmiddleware",
+      "community": 0,
+      "norm_label": "authmiddleware()"
+    },
+    {
+      "label": "validateChannelInput()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L230",
+      "id": "zenvo_stream_server_validatechannelinput",
+      "community": 0,
+      "norm_label": "validatechannelinput()"
+    },
+    {
+      "label": "fetchUrl()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L404",
+      "id": "zenvo_stream_server_fetchurl",
+      "community": 0,
+      "norm_label": "fetchurl()"
+    },
+    {
+      "label": "parseM3U()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L423",
+      "id": "zenvo_stream_server_parsem3u",
+      "community": 0,
+      "norm_label": "parsem3u()"
+    },
+    {
+      "label": "checkStream()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L534",
+      "id": "zenvo_stream_server_checkstream",
+      "community": 11,
+      "norm_label": "checkstream()"
+    },
+    {
+      "label": "worker()",
+      "file_type": "code",
+      "source_file": "server.js",
+      "source_location": "L619",
+      "id": "zenvo_stream_server_worker",
+      "community": 11,
+      "norm_label": "worker()"
+    },
+    {
+      "label": "admin.js",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L1",
+      "id": "assets_admin_js",
+      "community": 3,
+      "norm_label": "admin.js"
+    },
+    {
+      "label": "api()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L88",
+      "id": "assets_admin_api",
+      "community": 4,
+      "norm_label": "api()"
+    },
+    {
+      "label": "uploadImage()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L105",
+      "id": "assets_admin_uploadimage",
+      "community": 3,
+      "norm_label": "uploadimage()"
+    },
+    {
+      "label": "init()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L119",
+      "id": "assets_admin_init",
+      "community": 9,
+      "norm_label": "init()"
+    },
+    {
+      "label": "showLogin()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L125",
+      "id": "assets_admin_showlogin",
+      "community": 9,
+      "norm_label": "showlogin()"
+    },
+    {
+      "label": "showDashboard()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L130",
+      "id": "assets_admin_showdashboard",
+      "community": 9,
+      "norm_label": "showdashboard()"
+    },
+    {
+      "label": "logout()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L137",
+      "id": "assets_admin_logout",
+      "community": 9,
+      "norm_label": "logout()"
+    },
+    {
+      "label": "loadChannels()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L169",
+      "id": "assets_admin_loadchannels",
+      "community": 4,
+      "norm_label": "loadchannels()"
+    },
+    {
+      "label": "applyChannelFilters()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L179",
+      "id": "assets_admin_applychannelfilters",
+      "community": 4,
+      "norm_label": "applychannelfilters()"
+    },
+    {
+      "label": "renderStats()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L196",
+      "id": "assets_admin_renderstats",
+      "community": 4,
+      "norm_label": "renderstats()"
+    },
+    {
+      "label": "healthBadge()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L203",
+      "id": "assets_admin_healthbadge",
+      "community": 4,
+      "norm_label": "healthbadge()"
+    },
+    {
+      "label": "renderChannelTable()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L212",
+      "id": "assets_admin_renderchanneltable",
+      "community": 7,
+      "norm_label": "renderchanneltable()"
+    },
+    {
+      "label": "setFeatured()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L309",
+      "id": "assets_admin_setfeatured",
+      "community": 4,
+      "norm_label": "setfeatured()"
+    },
+    {
+      "label": "checkSingle()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L323",
+      "id": "assets_admin_checksingle",
+      "community": 4,
+      "norm_label": "checksingle()"
+    },
+    {
+      "label": "startInlineEdit()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L340",
+      "id": "assets_admin_startinlineedit",
+      "community": 3,
+      "norm_label": "startinlineedit()"
+    },
+    {
+      "label": "openEditModal()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L360",
+      "id": "assets_admin_openeditmodal",
+      "community": 3,
+      "norm_label": "openeditmodal()"
+    },
+    {
+      "label": "closeEditModal()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L377",
+      "id": "assets_admin_closeeditmodal",
+      "community": 3,
+      "norm_label": "closeeditmodal()"
+    },
+    {
+      "label": "updateEditLogoPreview()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L381",
+      "id": "assets_admin_updateeditlogopreview",
+      "community": 3,
+      "norm_label": "updateeditlogopreview()"
+    },
+    {
+      "label": "totalPages()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L468",
+      "id": "assets_admin_totalpages",
+      "community": 7,
+      "norm_label": "totalpages()"
+    },
+    {
+      "label": "goToPage()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L469",
+      "id": "assets_admin_gotopage",
+      "community": 7,
+      "norm_label": "gotopage()"
+    },
+    {
+      "label": "renderPagination()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L476",
+      "id": "assets_admin_renderpagination",
+      "community": 7,
+      "norm_label": "renderpagination()"
+    },
+    {
+      "label": "pageBtn()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L506",
+      "id": "assets_admin_pagebtn",
+      "community": 7,
+      "norm_label": "pagebtn()"
+    },
+    {
+      "label": "getSelectedIds()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L519",
+      "id": "assets_admin_getselectedids",
+      "community": 3,
+      "norm_label": "getselectedids()"
+    },
+    {
+      "label": "updateSelectionUI()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L521",
+      "id": "assets_admin_updateselectionui",
+      "community": 7,
+      "norm_label": "updateselectionui()"
+    },
+    {
+      "label": "setChannelLogoPreview()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L617",
+      "id": "assets_admin_setchannellogopreview",
+      "community": 6,
+      "norm_label": "setchannellogopreview()"
+    },
+    {
+      "label": "setSiteLogoPreview()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L642",
+      "id": "assets_admin_setsitelogopreview",
+      "community": 6,
+      "norm_label": "setsitelogopreview()"
+    },
+    {
+      "label": "handleM3UFile()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L757",
+      "id": "assets_admin_handlem3ufile",
+      "community": 4,
+      "norm_label": "handlem3ufile()"
+    },
+    {
+      "label": "loadSettings()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L834",
+      "id": "assets_admin_loadsettings",
+      "community": 6,
+      "norm_label": "loadsettings()"
+    },
+    {
+      "label": "populateFeaturedSelect()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L850",
+      "id": "assets_admin_populatefeaturedselect",
+      "community": 6,
+      "norm_label": "populatefeaturedselect()"
+    },
+    {
+      "label": "applyBranding()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L863",
+      "id": "assets_admin_applybranding",
+      "community": 6,
+      "norm_label": "applybranding()"
+    },
+    {
+      "label": "bindEvents()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L919",
+      "id": "assets_admin_bindevents",
+      "community": 9,
+      "norm_label": "bindevents()"
+    },
+    {
+      "label": "confirm()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L932",
+      "id": "assets_admin_confirm",
+      "community": 3,
+      "norm_label": "confirm()"
+    },
+    {
+      "label": "openPreview()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L949",
+      "id": "assets_admin_openpreview",
+      "community": 3,
+      "norm_label": "openpreview()"
+    },
+    {
+      "label": "markPreview()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L1002",
+      "id": "assets_admin_markpreview",
+      "community": 3,
+      "norm_label": "markpreview()"
+    },
+    {
+      "label": "failPreview()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L1014",
+      "id": "assets_admin_failpreview",
+      "community": 3,
+      "norm_label": "failpreview()"
+    },
+    {
+      "label": "cleanupPreview()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L1021",
+      "id": "assets_admin_cleanuppreview",
+      "community": 3,
+      "norm_label": "cleanuppreview()"
+    },
+    {
+      "label": "closePreview()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L1028",
+      "id": "assets_admin_closepreview",
+      "community": 3,
+      "norm_label": "closepreview()"
+    },
+    {
+      "label": "showToast()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L1063",
+      "id": "assets_admin_showtoast",
+      "community": 4,
+      "norm_label": "showtoast()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L1072",
+      "id": "assets_admin_escapehtml",
+      "community": 3,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "escapeAttr()",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": "L1080",
+      "id": "assets_admin_escapeattr",
+      "community": 6,
+      "norm_label": "escapeattr()"
+    },
+    {
+      "label": "app.js",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L1",
+      "id": "assets_app_js",
+      "community": 1,
+      "norm_label": "app.js"
+    },
+    {
+      "label": "api()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L66",
+      "id": "assets_app_api",
+      "community": 1,
+      "norm_label": "api()"
+    },
+    {
+      "label": "init()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L73",
+      "id": "assets_app_init",
+      "community": 1,
+      "norm_label": "init()"
+    },
+    {
+      "label": "applySettings()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L100",
+      "id": "assets_app_applysettings",
+      "community": 1,
+      "norm_label": "applysettings()"
+    },
+    {
+      "label": "renderHeroTitle()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L119",
+      "id": "assets_app_renderherotitle",
+      "community": 1,
+      "norm_label": "renderherotitle()"
+    },
+    {
+      "label": "updateHeroStats()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L128",
+      "id": "assets_app_updateherostats",
+      "community": 1,
+      "norm_label": "updateherostats()"
+    },
+    {
+      "label": "pickFeatured()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L134",
+      "id": "assets_app_pickfeatured",
+      "community": 1,
+      "norm_label": "pickfeatured()"
+    },
+    {
+      "label": "renderFeatured()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L146",
+      "id": "assets_app_renderfeatured",
+      "community": 1,
+      "norm_label": "renderfeatured()"
+    },
+    {
+      "label": "renderCategories()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L178",
+      "id": "assets_app_rendercategories",
+      "community": 1,
+      "norm_label": "rendercategories()"
+    },
+    {
+      "label": "applyFilters()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L185",
+      "id": "assets_app_applyfilters",
+      "community": 1,
+      "norm_label": "applyfilters()"
+    },
+    {
+      "label": "renderChannels()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L197",
+      "id": "assets_app_renderchannels",
+      "community": 1,
+      "norm_label": "renderchannels()"
+    },
+    {
+      "label": "openPlayer()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L233",
+      "id": "assets_app_openplayer",
+      "community": 1,
+      "norm_label": "openplayer()"
+    },
+    {
+      "label": "resetQualityMenu()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L286",
+      "id": "assets_app_resetqualitymenu",
+      "community": 1,
+      "norm_label": "resetqualitymenu()"
+    },
+    {
+      "label": "buildQualityMenu()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L293",
+      "id": "assets_app_buildqualitymenu",
+      "community": 1,
+      "norm_label": "buildqualitymenu()"
+    },
+    {
+      "label": "updateQualityLabel()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L339",
+      "id": "assets_app_updatequalitylabel",
+      "community": 1,
+      "norm_label": "updatequalitylabel()"
+    },
+    {
+      "label": "showPlayerError()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L362",
+      "id": "assets_app_showplayererror",
+      "community": 1,
+      "norm_label": "showplayererror()"
+    },
+    {
+      "label": "cleanupPlayer()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L368",
+      "id": "assets_app_cleanupplayer",
+      "community": 1,
+      "norm_label": "cleanupplayer()"
+    },
+    {
+      "label": "closePlayer()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L378",
+      "id": "assets_app_closeplayer",
+      "community": 1,
+      "norm_label": "closeplayer()"
+    },
+    {
+      "label": "bindEvents()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L385",
+      "id": "assets_app_bindevents",
+      "community": 1,
+      "norm_label": "bindevents()"
+    },
+    {
+      "label": "bindScroll()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L437",
+      "id": "assets_app_bindscroll",
+      "community": 1,
+      "norm_label": "bindscroll()"
+    },
+    {
+      "label": "browseScroll()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L449",
+      "id": "assets_app_browsescroll",
+      "community": 1,
+      "norm_label": "browsescroll()"
+    },
+    {
+      "label": "escapeHtml()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L454",
+      "id": "assets_app_escapehtml",
+      "community": 1,
+      "norm_label": "escapehtml()"
+    },
+    {
+      "label": "escapeAttr()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L462",
+      "id": "assets_app_escapeattr",
+      "community": 1,
+      "norm_label": "escapeattr()"
+    },
+    {
+      "label": "cssUrl()",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": "L467",
+      "id": "assets_app_cssurl",
+      "community": 1,
+      "norm_label": "cssurl()"
+    },
+    {
+      "label": "channels.json",
+      "file_type": "code",
+      "source_file": "data/channels.json",
+      "source_location": "L1",
+      "id": "data_channels_json",
+      "community": 12,
+      "norm_label": "channels.json"
+    },
+    {
+      "label": "settings.json",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L1",
+      "id": "data_settings_json",
+      "community": 5,
+      "norm_label": "settings.json"
+    },
+    {
+      "label": "siteName",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L2",
+      "id": "data_settings_sitename",
+      "community": 5,
+      "norm_label": "sitename"
+    },
+    {
+      "label": "siteLogo",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L3",
+      "id": "data_settings_sitelogo",
+      "community": 5,
+      "norm_label": "sitelogo"
+    },
+    {
+      "label": "heroTitle",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L4",
+      "id": "data_settings_herotitle",
+      "community": 5,
+      "norm_label": "herotitle"
+    },
+    {
+      "label": "heroSubtitle",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L5",
+      "id": "data_settings_herosubtitle",
+      "community": 5,
+      "norm_label": "herosubtitle"
+    },
+    {
+      "label": "maintenanceMode",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L6",
+      "id": "data_settings_maintenancemode",
+      "community": 5,
+      "norm_label": "maintenancemode"
+    },
+    {
+      "label": "featuredId",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L7",
+      "id": "data_settings_featuredid",
+      "community": 5,
+      "norm_label": "featuredid"
+    },
+    {
+      "label": "adminUsername",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L8",
+      "id": "data_settings_adminusername",
+      "community": 5,
+      "norm_label": "adminusername"
+    },
+    {
+      "label": "adminPasswordHash",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": "L9",
+      "id": "data_settings_adminpasswordhash",
+      "community": 5,
+      "norm_label": "adminpasswordhash"
+    },
+    {
+      "label": "Admin Portal Logic",
+      "file_type": "code",
+      "source_file": "assets/admin.js",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "admin_js",
+      "community": 8,
+      "norm_label": "admin portal logic"
+    },
+    {
+      "label": "Public App Logic",
+      "file_type": "code",
+      "source_file": "assets/app.js",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "app_js",
+      "community": 8,
+      "norm_label": "public app logic"
+    },
+    {
+      "label": "Channel Data",
+      "file_type": "code",
+      "source_file": "data/channels.json",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "channels_json",
+      "community": 8,
+      "norm_label": "channel data"
+    },
+    {
+      "label": "Site Settings",
+      "file_type": "code",
+      "source_file": "data/settings.json",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "settings_json",
+      "community": 0,
+      "norm_label": "site settings"
+    },
+    {
+      "label": "Main Website UI",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "index_html",
+      "community": 8,
+      "norm_label": "main website ui"
+    },
+    {
+      "label": "Project Documentation",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_md",
+      "community": 13,
+      "norm_label": "project documentation"
+    },
+    {
+      "label": "Admin Portal UI",
+      "file_type": "document",
+      "source_file": "admin/index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "admin_index_html",
+      "community": 8,
+      "norm_label": "admin portal ui"
+    },
+    {
+      "label": "Premium Dark Aesthetic",
+      "file_type": "rationale",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "rationale_premium_aesthetic",
+      "community": 8,
+      "norm_label": "premium dark aesthetic"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_description",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_keywords",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_license",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "package_json",
+      "target": "zenvo_stream_package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "server.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "server_js",
+      "target": "package_json"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_scripts",
+      "target": "zenvo_stream_package_scripts_dev",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_scripts",
+      "target": "zenvo_stream_package_scripts_start",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_dependencies",
+      "target": "zenvo_stream_package_dependencies_bcrypt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_dependencies",
+      "target": "zenvo_stream_package_dependencies_cors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_dependencies",
+      "target": "zenvo_stream_package_dependencies_express",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_dependencies",
+      "target": "zenvo_stream_package_dependencies_express_rate_limit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_dependencies",
+      "target": "zenvo_stream_package_dependencies_jsonwebtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_dependencies",
+      "target": "zenvo_stream_package_dependencies_multer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_dependencies",
+      "target": "zenvo_stream_package_dependencies_uuid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "zenvo_stream_package_devdependencies",
+      "target": "zenvo_stream_package_devdependencies_nodemon",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "assets/admin.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "admin_js",
+      "target": "server_js"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "assets/app.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "app_js",
+      "target": "server_js"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "server.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "server_js",
+      "target": "admin_index_html"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "server.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "server_js",
+      "target": "channels_json"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "server.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "server_js",
+      "target": "index_html"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "server.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "server_js",
+      "target": "settings_json"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_allowed_img",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L215",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_authmiddleware",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_bcrypt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_channels_file",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L534",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_checkstream",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_cors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_data_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_ensuredatafiles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_express",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L404",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_fetchurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_fs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_http",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_https",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_jwt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_loginlimiter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_m3ustorage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_multer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L423",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_parsem3u",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_ratelimit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L189",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_readchannels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L204",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_readsettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_settings_file",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_storage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_upload",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_uploadm3u",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_uploads_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_v4_uuidv4",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L230",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_validatechannelinput",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L619",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_worker",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L201",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_writechannels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L208",
+      "weight": 1.0,
+      "source": "server_js",
+      "target": "zenvo_stream_server_writesettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L191",
+      "weight": 1.0,
+      "source": "zenvo_stream_server_readchannels",
+      "target": "zenvo_stream_server_ensuredatafiles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L205",
+      "weight": 1.0,
+      "source": "zenvo_stream_server_readsettings",
+      "target": "zenvo_stream_server_ensuredatafiles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "server.js",
+      "source_location": "L622",
+      "weight": 1.0,
+      "source": "zenvo_stream_server_worker",
+      "target": "zenvo_stream_server_checkstream",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L863",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_applybranding",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L179",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_applychannelfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L919",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_bindevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L323",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_checksingle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1021",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_cleanuppreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L377",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_closeeditmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1028",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_closepreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L932",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_confirm",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1080",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1072",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_escapehtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1014",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_failpreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L519",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_getselectedids",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L469",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_gotopage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L757",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_handlem3ufile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L203",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_healthbadge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L119",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_init",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L169",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_loadchannels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L834",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_loadsettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L137",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_logout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1002",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_markpreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L360",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_openeditmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L949",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_openpreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L506",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_pagebtn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L850",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_populatefeaturedselect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L212",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_renderchanneltable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L476",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_renderpagination",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L196",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_renderstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L617",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_setchannellogopreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L309",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_setfeatured",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L642",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_setsitelogopreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_showdashboard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_showlogin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1063",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_showtoast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L340",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_startinlineedit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L468",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_totalpages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L381",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_updateeditlogopreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L521",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_updateselectionui",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "assets_admin_js",
+      "target": "assets_admin_uploadimage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "assets_admin_api",
+      "target": "assets_admin_logout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L327",
+      "weight": 1.0,
+      "source": "assets_admin_checksingle",
+      "target": "assets_admin_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L171",
+      "weight": 1.0,
+      "source": "assets_admin_loadchannels",
+      "target": "assets_admin_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L836",
+      "weight": 1.0,
+      "source": "assets_admin_loadsettings",
+      "target": "assets_admin_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L312",
+      "weight": 1.0,
+      "source": "assets_admin_setfeatured",
+      "target": "assets_admin_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L120",
+      "weight": 1.0,
+      "source": "assets_admin_init",
+      "target": "assets_admin_bindevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L121",
+      "weight": 1.0,
+      "source": "assets_admin_init",
+      "target": "assets_admin_showdashboard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L122",
+      "weight": 1.0,
+      "source": "assets_admin_init",
+      "target": "assets_admin_showlogin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L140",
+      "weight": 1.0,
+      "source": "assets_admin_logout",
+      "target": "assets_admin_showlogin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "assets_admin_showdashboard",
+      "target": "assets_admin_loadchannels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "assets_admin_showdashboard",
+      "target": "assets_admin_loadsettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L336",
+      "weight": 1.0,
+      "source": "assets_admin_checksingle",
+      "target": "assets_admin_loadchannels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L775",
+      "weight": 1.0,
+      "source": "assets_admin_handlem3ufile",
+      "target": "assets_admin_loadchannels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L172",
+      "weight": 1.0,
+      "source": "assets_admin_loadchannels",
+      "target": "assets_admin_applychannelfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L173",
+      "weight": 1.0,
+      "source": "assets_admin_loadchannels",
+      "target": "assets_admin_renderstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L175",
+      "weight": 1.0,
+      "source": "assets_admin_loadchannels",
+      "target": "assets_admin_showtoast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L192",
+      "weight": 1.0,
+      "source": "assets_admin_applychannelfilters",
+      "target": "assets_admin_renderchanneltable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L193",
+      "weight": 1.0,
+      "source": "assets_admin_applychannelfilters",
+      "target": "assets_admin_renderpagination",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L330",
+      "weight": 1.0,
+      "source": "assets_admin_checksingle",
+      "target": "assets_admin_applychannelfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L318",
+      "weight": 1.0,
+      "source": "assets_admin_setfeatured",
+      "target": "assets_admin_applychannelfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L331",
+      "weight": 1.0,
+      "source": "assets_admin_checksingle",
+      "target": "assets_admin_renderstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L325",
+      "weight": 1.0,
+      "source": "assets_admin_checksingle",
+      "target": "assets_admin_healthbadge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L472",
+      "weight": 1.0,
+      "source": "assets_admin_gotopage",
+      "target": "assets_admin_renderchanneltable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L220",
+      "weight": 1.0,
+      "source": "assets_admin_renderchanneltable",
+      "target": "assets_admin_updateselectionui",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L319",
+      "weight": 1.0,
+      "source": "assets_admin_setfeatured",
+      "target": "assets_admin_showtoast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L332",
+      "weight": 1.0,
+      "source": "assets_admin_checksingle",
+      "target": "assets_admin_showtoast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L341",
+      "weight": 1.0,
+      "source": "assets_admin_startinlineedit",
+      "target": "assets_admin_openeditmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L370",
+      "weight": 1.0,
+      "source": "assets_admin_openeditmodal",
+      "target": "assets_admin_updateeditlogopreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L383",
+      "weight": 1.0,
+      "source": "assets_admin_updateeditlogopreview",
+      "target": "assets_admin_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L470",
+      "weight": 1.0,
+      "source": "assets_admin_gotopage",
+      "target": "assets_admin_totalpages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L478",
+      "weight": 1.0,
+      "source": "assets_admin_renderpagination",
+      "target": "assets_admin_totalpages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L473",
+      "weight": 1.0,
+      "source": "assets_admin_gotopage",
+      "target": "assets_admin_renderpagination",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L496",
+      "weight": 1.0,
+      "source": "assets_admin_renderpagination",
+      "target": "assets_admin_pagebtn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L619",
+      "weight": 1.0,
+      "source": "assets_admin_setchannellogopreview",
+      "target": "assets_admin_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L844",
+      "weight": 1.0,
+      "source": "assets_admin_loadsettings",
+      "target": "assets_admin_setsitelogopreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L644",
+      "weight": 1.0,
+      "source": "assets_admin_setsitelogopreview",
+      "target": "assets_admin_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L846",
+      "weight": 1.0,
+      "source": "assets_admin_loadsettings",
+      "target": "assets_admin_applybranding",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L845",
+      "weight": 1.0,
+      "source": "assets_admin_loadsettings",
+      "target": "assets_admin_populatefeaturedselect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L867",
+      "weight": 1.0,
+      "source": "assets_admin_applybranding",
+      "target": "assets_admin_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L969",
+      "weight": 1.0,
+      "source": "assets_admin_openpreview",
+      "target": "assets_admin_cleanuppreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L955",
+      "weight": 1.0,
+      "source": "assets_admin_openpreview",
+      "target": "assets_admin_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L957",
+      "weight": 1.0,
+      "source": "assets_admin_openpreview",
+      "target": "assets_admin_escapehtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L972",
+      "weight": 1.0,
+      "source": "assets_admin_openpreview",
+      "target": "assets_admin_failpreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1018",
+      "weight": 1.0,
+      "source": "assets_admin_failpreview",
+      "target": "assets_admin_markpreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1030",
+      "weight": 1.0,
+      "source": "assets_admin_closepreview",
+      "target": "assets_admin_cleanuppreview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/admin.js",
+      "source_location": "L1080",
+      "weight": 1.0,
+      "source": "assets_admin_escapeattr",
+      "target": "assets_admin_escapehtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L185",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_applyfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_applysettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L385",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_bindevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L437",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_bindscroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L449",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_browsescroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L293",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_buildqualitymenu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L368",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_cleanupplayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L378",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_closeplayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L467",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_cssurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L462",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L454",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_escapehtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_init",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L233",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_openplayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_pickfeatured",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L178",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_rendercategories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L197",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_renderchannels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L146",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_renderfeatured",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L119",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_renderherotitle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L286",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_resetqualitymenu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L362",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_showplayererror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L128",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_updateherostats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L339",
+      "weight": 1.0,
+      "source": "assets_app_js",
+      "target": "assets_app_updatequalitylabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "assets_app_init",
+      "target": "assets_app_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "assets_app_init",
+      "target": "assets_app_applyfilters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "assets_app_init",
+      "target": "assets_app_applysettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "assets_app_init",
+      "target": "assets_app_bindevents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "assets_app_init",
+      "target": "assets_app_bindscroll",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L91",
+      "weight": 1.0,
+      "source": "assets_app_init",
+      "target": "assets_app_pickfeatured",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "assets_app_init",
+      "target": "assets_app_rendercategories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "assets_app_init",
+      "target": "assets_app_updateherostats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "assets_app_applysettings",
+      "target": "assets_app_escapeattr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L113",
+      "weight": 1.0,
+      "source": "assets_app_applysettings",
+      "target": "assets_app_renderherotitle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "assets_app_renderherotitle",
+      "target": "assets_app_escapehtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L138",
+      "weight": 1.0,
+      "source": "assets_app_pickfeatured",
+      "target": "assets_app_renderfeatured",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L156",
+      "weight": 1.0,
+      "source": "assets_app_renderfeatured",
+      "target": "assets_app_cssurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L193",
+      "weight": 1.0,
+      "source": "assets_app_applyfilters",
+      "target": "assets_app_renderchannels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L244",
+      "weight": 1.0,
+      "source": "assets_app_openplayer",
+      "target": "assets_app_cleanupplayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L242",
+      "weight": 1.0,
+      "source": "assets_app_openplayer",
+      "target": "assets_app_resetqualitymenu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L246",
+      "weight": 1.0,
+      "source": "assets_app_openplayer",
+      "target": "assets_app_showplayererror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L381",
+      "weight": 1.0,
+      "source": "assets_app_closeplayer",
+      "target": "assets_app_cleanupplayer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "assets/app.js",
+      "source_location": "L463",
+      "weight": 1.0,
+      "source": "assets_app_escapeattr",
+      "target": "assets_app_escapehtml",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "data/settings.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "data_settings_json",
+      "target": "data_settings_adminpasswordhash",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "data/settings.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "data_settings_json",
+      "target": "data_settings_adminusername",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "data/settings.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "data_settings_json",
+      "target": "data_settings_featuredid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "data/settings.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "data_settings_json",
+      "target": "data_settings_herosubtitle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "data/settings.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "data_settings_json",
+      "target": "data_settings_herotitle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "data/settings.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "data_settings_json",
+      "target": "data_settings_maintenancemode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "data/settings.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "data_settings_json",
+      "target": "data_settings_sitelogo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "data/settings.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "data_settings_json",
+      "target": "data_settings_sitename",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "admin/index.html",
+      "source_location": null,
+      "weight": 1,
+      "source": "admin_index_html",
+      "target": "admin_js"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "assets/admin.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "admin_js",
+      "target": "channels_json"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "assets/app.js",
+      "source_location": null,
+      "weight": 1,
+      "source": "app_js",
+      "target": "channels_json"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1,
+      "source": "index_html",
+      "target": "app_js"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1,
+      "source": "rationale_premium_aesthetic",
+      "target": "index_html"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "data_access_layer",
+      "label": "Data Access Layer",
+      "nodes": [
+        "server_js",
+        "channels_json",
+        "settings_json"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "server.js"
+    },
+    {
+      "id": "streaming_architecture",
+      "label": "Streaming Platform Architecture",
+      "nodes": [
+        "server_js",
+        "app_js",
+        "admin_js"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md"
+    }
+  ]
+}

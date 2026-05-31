@@ -1,0 +1,9 @@
+E:\Lovable\Zenvo-stream\package.json
+E:\Lovable\Zenvo-stream\server.js
+E:\Lovable\Zenvo-stream\assets\admin.js
+E:\Lovable\Zenvo-stream\assets\app.js
+E:\Lovable\Zenvo-stream\data\channels.json
+E:\Lovable\Zenvo-stream\data\settings.json
+E:\Lovable\Zenvo-stream\index.html
+E:\Lovable\Zenvo-stream\README.md
+E:\Lovable\Zenvo-stream\admin\index.html

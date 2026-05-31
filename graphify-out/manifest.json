@@ -1,0 +1,47 @@
+{
+  "E:\\Lovable\\Zenvo-stream\\package.json": {
+    "mtime": 1780201420.4720755,
+    "ast_hash": "227e5ab1d2c92b94411a2dae08fa56b6",
+    "semantic_hash": "227e5ab1d2c92b94411a2dae08fa56b6"
+  },
+  "E:\\Lovable\\Zenvo-stream\\server.js": {
+    "mtime": 1780221619.1951675,
+    "ast_hash": "fa974a83e8662dba85a24cb5e1062408",
+    "semantic_hash": "fa974a83e8662dba85a24cb5e1062408"
+  },
+  "E:\\Lovable\\Zenvo-stream\\assets\\admin.js": {
+    "mtime": 1780221665.2527776,
+    "ast_hash": "ee67eb61139549a233a2a9f3a9b3b004",
+    "semantic_hash": "ee67eb61139549a233a2a9f3a9b3b004"
+  },
+  "E:\\Lovable\\Zenvo-stream\\assets\\app.js": {
+    "mtime": 1780220559.043539,
+    "ast_hash": "c914eab57faca8a182d3285c8945887c",
+    "semantic_hash": "c914eab57faca8a182d3285c8945887c"
+  },
+  "E:\\Lovable\\Zenvo-stream\\data\\channels.json": {
+    "mtime": 1780221827.6492808,
+    "ast_hash": "c3d50a7bd291d33f2d3ee56073dd7f98",
+    "semantic_hash": "c3d50a7bd291d33f2d3ee56073dd7f98"
+  },
+  "E:\\Lovable\\Zenvo-stream\\data\\settings.json": {
+    "mtime": 1780215212.72007,
+    "ast_hash": "de1dd8c9a34c5d7771e60dc980f78330",
+    "semantic_hash": "de1dd8c9a34c5d7771e60dc980f78330"
+  },
+  "E:\\Lovable\\Zenvo-stream\\index.html": {
+    "mtime": 1780220568.7615292,
+    "ast_hash": "577af5835d2f2720c05e8f79b8e3b964",
+    "semantic_hash": "577af5835d2f2720c05e8f79b8e3b964"
+  },
+  "E:\\Lovable\\Zenvo-stream\\README.md": {
+    "mtime": 1780201427.3614173,
+    "ast_hash": "358a954cabc941cc4b4e14fa6495b448",
+    "semantic_hash": "358a954cabc941cc4b4e14fa6495b448"
+  },
+  "E:\\Lovable\\Zenvo-stream\\admin\\index.html": {
+    "mtime": 1780221549.7444572,
+    "ast_hash": "bba572ceac1519c7555f6d3060ebccc1",
+    "semantic_hash": "bba572ceac1519c7555f6d3060ebccc1"
+  }
+}

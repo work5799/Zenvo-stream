@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Portal — StreamX IPTV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></symbol>
+      <symbol id="i-tv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="m7 7 5-4 5 4"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2Z"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></symbol>
+    </defs>
+  </svg>
+</head>
+<body>
+  <!-- ============== LOGIN ============== -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-mark"><svg class="ic"><use href="#i-play"/></svg></span>
+        <span class="brand-text">StreamX Admin</span>
+      </div>
+      <h1>Welcome back</h1>
+      <p class="muted">Sign in to manage channels and settings.</p>
+
+      <form id="loginForm" class="login-form">
+        <label>
+          <span>Username</span>
+          <input type="text" name="username" autocomplete="username" required />
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" autocomplete="current-password" required />
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+        <div id="loginError" class="error-msg hidden"></div>
+        <p class="hint">Default: <code>admin</code> / <code>iptv2026</code></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============== DASHBOARD ============== -->
+  <div id="dashboard" class="dashboard hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand" id="sidebarBrand">
+        <span class="brand-mark"><svg class="ic"><use href="#i-play"/></svg></span>
+        <span class="brand-text" id="sidebarName">StreamX</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard"><svg class="ic nav-ico"><use href="#i-bolt"/></svg> Dashboard</button>
+        <button class="nav-item" data-view="channels"><svg class="ic nav-ico"><use href="#i-tv"/></svg> All Channels</button>
+        <button class="nav-item" data-view="add-channel"><svg class="ic nav-ico"><use href="#i-plus"/></svg> Add Channel</button>
+        <button class="nav-item" data-view="duplicates"><svg class="ic nav-ico"><use href="#i-refresh"/></svg> Duplicate Finder</button>
+        <button class="nav-item" data-view="bulk"><svg class="ic nav-ico"><use href="#i-layers"/></svg> Bulk Actions</button>
+        <button class="nav-item" data-view="settings"><svg class="ic nav-ico"><use href="#i-gear"/></svg> Settings</button>
+      </nav>
+      <div class="sidebar-foot">
+        <a href="/" target="_blank" class="view-site"><svg class="ic"><use href="#i-external"/></svg> View Site</a>
+        <button id="logoutBtn" class="btn-link"><svg class="ic"><use href="#i-logout"/></svg> Logout</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- ===== Dashboard View ===== -->
+      <section class="view active" data-view="dashboard">
+        <header class="view-head">
+          <div>
+            <h1>Dashboard</h1>
+            <p class="muted">System monitoring and platform overview.</p>
+          </div>
+        </header>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue"><svg class="ic"><use href="#i-tv"/></svg></div>
+            <div class="stat-body">
+              <span class="stat-label">Total Channels</span>
+              <strong id="statTotal">0</strong>
+            </div>
+            <div class="stat-progress-bar"><div class="progress-fill" id="progressTotal" style="width: 100%"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><svg class="ic"><use href="#i-check"/></svg></div>
+            <div class="stat-body">
+              <span class="stat-label">Online Streams</span>
+              <strong id="statActive" class="ok">0</strong>
+            </div>
+            <div class="stat-progress-bar"><div class="progress-fill ok" id="progressActive" style="width: 0%"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red"><svg class="ic"><use href="#i-alert"/></svg></div>
+            <div class="stat-body">
+              <span class="stat-label">Offline Streams</span>
+              <strong id="statOffline" class="danger-text">0</strong>
+            </div>
+            <div class="stat-progress-bar"><div class="progress-fill danger" id="progressOffline" style="width: 0%"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple"><svg class="ic"><use href="#i-layers"/></svg></div>
+            <div class="stat-body">
+              <span class="stat-label">Total Categories</span>
+              <strong id="statCategories">0</strong>
+            </div>
+            <div class="stat-progress-bar"><div class="progress-fill purple" id="progressCategories" style="width: 100%"></div></div>
+          </div>
+        </div>
+
+        <div class="dashboard-overview-grid">
+          <div class="card overview-chart-card">
+            <div class="overview-header">
+              <h3>System Platform Health</h3>
+              <span class="badge" id="platformStatusBadge">Analyzing...</span>
+            </div>
+            <div class="overview-body">
+              <div class="chart-flex">
+                <div class="radial-chart-container">
+                  <div class="radial-progress" id="healthRadial" style="--percent: 0">
+                    <div class="radial-inner">
+                      <span id="healthPercentText">0%</span>
+                      <small>Healthy</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="chart-stats">
+                  <div class="chart-stat-item">
+                    <span class="dot green"></span>
+                    <div>
+                      <span class="label">Healthy Channels</span>
+                      <strong id="healthyChannelsText">0 Channels</strong>
+                    </div>
+                  </div>
+                  <div class="chart-stat-item">
+                    <span class="dot red"></span>
+                    <div>
+                      <span class="label">Down/Offline</span>
+                      <strong id="offlineChannelsText">0 Channels</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card quick-actions-card">
+            <h3>Quick System Controls</h3>
+            <p class="muted">Fast actions to maintain and monitor your streaming services.</p>
+            <div class="quick-actions-grid">
+              <button class="action-tile" id="tileCheckAll">
+                <svg class="ic tile-ico"><use href="#i-refresh"/></svg>
+                <span>Check Health</span>
+                <small>Scan all streams</small>
+              </button>
+              <button class="action-tile" id="tileDeleteOffline">
+                <svg class="ic tile-ico danger-text"><use href="#i-trash"/></svg>
+                <span>Prune Offline</span>
+                <small>Delete dead links</small>
+              </button>
+              <button class="action-tile" id="tileExportM3u">
+                <svg class="ic tile-ico"><use href="#i-download"/></svg>
+                <span>Export M3U</span>
+                <small>Backup playlist</small>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Channels View (All Channels List) ===== -->
+      <section class="view" data-view="channels">
+        <header class="view-head">
+          <div>
+            <h1>All Channels</h1>
+            <p class="muted">Manage and monitor all your stream links.</p>
+          </div>
+          <button class="btn btn-info" id="checkAllBtn">
+            <span class="btn-spinner hidden"></span>
+            <svg class="ic btn-ico"><use href="#i-refresh"/></svg>
+            <span class="btn-label">Check All Streams</span>
+          </button>
+        </header>
+
+        <div class="card table-card">
+          <div class="table-toolbar">
+            <div class="toolbar-left">
+              <h2>Channel List</h2>
+              <span class="toolbar-count" id="tableCount">0 results</span>
+            </div>
+            <div class="toolbar-right">
+              <div class="filter-pills">
+                <button class="pill active" data-filter="all">All</button>
+                <button class="pill" data-filter="online">Online</button>
+                <button class="pill" data-filter="offline">Offline</button>
+              </div>
+              <div class="toolbar-search">
+                <svg class="ic search-ico"><use href="#i-play"/></svg>
+                <input id="channelSearch" type="search" placeholder="Search channels…" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Bulk selection bar (hidden until items selected) -->
+          <div class="selection-bar hidden" id="selectionBar">
+            <div class="sel-left">
+              <input type="checkbox" class="sel-check-all" id="selCheckAll" />
+              <span id="selCount">0 selected</span>
+            </div>
+            <div class="sel-actions">
+              <button class="btn btn-danger btn-sm" id="selDeleteBtn"><svg class="ic btn-ico"><use href="#i-trash"/></svg> Delete selected</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="th-check"><input type="checkbox" id="headerCheckAll" class="row-check" /></th>
+                  <th>Channel</th>
+                  <th>Category</th>
+                  <th>Country</th>
+                  <th>Stream Health</th>
+                  <th>Visibility</th>
+                  <th class="actions-col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="channelTableBody"></tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="table-pagination" id="pagination">
+            <div class="pag-left">
+              <label class="pag-per-page">
+                <span>Show</span>
+                <select id="perPageSelect">
+                  <option value="10">10</option>
+                  <option value="20" selected>20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span>per page</span>
+              </label>
+            </div>
+            <div class="pag-center" id="pagInfo"></div>
+            <div class="pag-right">
+              <button class="pag-btn" id="pagFirst" title="First page">«</button>
+              <button class="pag-btn" id="pagPrev" title="Previous page">‹</button>
+              <div class="pag-pages" id="pagPages"></div>
+              <button class="pag-btn" id="pagNext" title="Next page">›</button>
+              <button class="pag-btn" id="pagLast" title="Last page">»</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Add Channel View ===== -->
+      <section class="view" data-view="add-channel">
+        <header class="view-head">
+          <div>
+            <h1>Add New Channel</h1>
+            <p class="muted">Register a new live stream to your platform.</p>
+          </div>
+        </header>
+
+        <div class="card add-channel-card">
+          <div class="card-head">
+            <div class="card-head-left">
+              <div class="card-head-icon"><svg class="ic"><use href="#i-plus"/></svg></div>
+              <div>
+                <h2>Channel Details</h2>
+                <p class="muted">Fill in the fields to create a new stream entry.</p>
+              </div>
+            </div>
+          </div>
+
+          <form id="addChannelForm" class="add-form">
+            <!-- Row 1: Basic info -->
+            <div class="add-section">
+              <div class="add-section-label">Basic Info</div>
+              <div class="add-section-fields two-col">
+                <label class="field">
+                  <span class="field-label">Channel Name <span class="req">*</span></span>
+                  <input type="text" name="name" placeholder="e.g. BTV National" required />
+                </label>
+                <label class="field">
+                  <span class="field-label">Stream URL</span>
+                  <input type="url" name="url" placeholder="https://example.com/stream.m3u8" />
+                  <span class="field-hint">M3U8 or HLS stream link</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Row 2: Classification -->
+            <div class="add-section">
+              <div class="add-section-label">Classification</div>
+              <div class="add-section-fields two-col">
+                <label class="field">
+                  <span class="field-label">Category</span>
+                  <select name="category">
+                    <!-- Dynamic categories -->
+                  </select>
+                </label>
+                <label class="field">
+                  <span class="field-label">Country</span>
+                  <select name="country">
+                    <!-- Dynamic countries -->
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <!-- Row 3: Logo -->
+            <div class="add-section">
+              <div class="add-section-label">Branding</div>
+              <div class="add-section-fields">
+                <div class="logo-field">
+                  <div class="logo-input-row">
+                    <div class="logo-preview" id="channelLogoPreview">
+                      <span class="logo-ph">No logo</span>
+                    </div>
+                    <div class="logo-input-controls">
+                      <input type="url" name="logo" id="channelLogoUrl" placeholder="Paste a logo URL or upload an image" />
+                      <div class="logo-btns">
+                        <label class="btn btn-ghost btn-sm upload-btn">
+                          <svg class="ic"><use href="#i-upload"/></svg> Upload
+                          <input type="file" id="channelLogoFile" accept="image/*" hidden />
+                        </label>
+                        <span class="upload-status muted" id="channelLogoStatus"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer: Active toggle + Submit -->
+            <div class="add-footer">
+              <label class="toggle-label">
+                <input type="checkbox" name="active" checked class="toggle-check" />
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                <span>Active on site</span>
+              </label>
+              <div class="add-footer-actions">
+                <span id="addChannelMsg" class="form-msg"></span>
+                <button type="submit" class="btn btn-primary"><svg class="ic btn-ico"><use href="#i-plus"/></svg> Add Channel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ===== Bulk View ===== -->
+      <section class="view" data-view="bulk">
+        <header class="view-head">
+          <div>
+            <h1>Bulk Actions</h1>
+            <p class="muted">Import, export, and clean up channels in bulk.</p>
+          </div>
+        </header>
+
+        <div class="card">
+          <h2>Import Channels</h2>
+          <p class="muted">Import channels from an M3U / M3U8 playlist — either paste a URL or upload a file from your device.</p>
+
+          <div class="import-tabs">
+            <button class="import-tab active" data-import-tab="url">From URL</button>
+            <button class="import-tab" data-import-tab="file">Upload File</button>
+          </div>
+
+          <div class="import-panel active" data-import-panel="url">
+            <form id="importForm" class="inline-form">
+              <input type="url" name="url" placeholder="https://example.com/playlist.m3u" required />
+              <button class="btn btn-primary" type="submit"><svg class="ic btn-ico"><use href="#i-download"/></svg> Import</button>
+            </form>
+            <div id="importMsg" class="form-msg"></div>
+          </div>
+
+          <div class="import-panel" data-import-panel="file">
+            <div class="file-drop" id="fileDropZone">
+              <svg class="ic file-drop-icon"><use href="#i-upload"/></svg>
+              <p><strong>Drop an M3U / M3U8 file here</strong></p>
+              <p class="muted">or click to browse</p>
+              <input type="file" id="importFileInput" accept=".m3u,.m3u8,audio/x-mpegurl,application/x-mpegurl" hidden />
+            </div>
+            <div id="importFileMsg" class="form-msg"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Export Channels</h2>
+          <p class="muted">Download every channel as a standard .m3u playlist file.</p>
+          <button id="exportBtn" class="btn btn-ghost"><svg class="ic btn-ico"><use href="#i-download"/></svg> Download channels.m3u</button>
+        </div>
+
+        <div class="card danger">
+          <h2>Clean Up</h2>
+          <p class="muted">Remove channels you no longer need. These actions cannot be undone.</p>
+          <div class="cleanup-row">
+            <button id="deleteOfflineBtn" class="btn btn-danger"><svg class="ic btn-ico"><use href="#i-trash"/></svg> Delete offline streams</button>
+            <button id="deleteInactiveBtn" class="btn btn-danger-ghost"><svg class="ic btn-ico"><use href="#i-trash"/></svg> Delete inactive channels</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Duplicate Finder View ===== -->
+      <section class="view" data-view="duplicates">
+        <header class="view-head">
+          <div>
+            <h1>Duplicate Finder & Optimizer</h1>
+            <p class="muted">Find channels with same name or URL and keep the one with best performance.</p>
+          </div>
+          <button id="findDuplicatesBtn" class="btn btn-primary">
+              <svg class="ic btn-ico"><use href="#i-refresh"/></svg>
+              <span class="btn-label">Scan for Duplicates</span>
+          </button>
+        </header>
+
+        <div id="duplicateResults" class="duplicate-results-area hidden">
+            <div class="card">
+                <div class="loading-state" id="duplicateLoading">
+                    <div class="btn-spinner big"></div>
+                    <p>Analyzing channel performance and latency. Please wait, this may take a few moments...</p>
+                </div>
+                <div id="duplicateGroupsContainer"></div>
+            </div>
+        </div>
+      </section>
+
+      <!-- ===== Settings View ===== -->
+      <section class="view" data-view="settings">
+        <header class="view-head">
+          <div>
+            <h1>Settings</h1>
+            <p class="muted">Customize the public site, hero, and admin credentials.</p>
+          </div>
+        </header>
+
+        <div class="card">
+          <h2>Branding</h2>
+          <p class="muted">Upload a logo to replace the text logo across the site.</p>
+          <div class="logo-field" style="margin-top:16px">
+            <span class="field-label">Site Logo</span>
+            <div class="logo-input-row">
+              <div class="logo-preview wide" id="siteLogoPreview">
+                <span class="logo-ph">No logo</span>
+              </div>
+              <div class="logo-input-controls">
+                <input type="url" id="siteLogoUrl" placeholder="Paste a logo URL or upload an image" />
+                <div class="logo-btns">
+                  <label class="btn btn-ghost btn-sm upload-btn">
+                    <svg class="ic"><use href="#i-upload"/></svg> Upload Logo
+                    <input type="file" id="siteLogoFile" accept="image/*" hidden />
+                  </label>
+                  <button type="button" class="btn btn-ghost btn-sm" id="siteLogoClear">Remove</button>
+                  <span class="upload-status muted" id="siteLogoStatus"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Hero Section</h2>
+          <p class="muted">Control the big banner at the top of the public site.</p>
+          <form id="settingsForm" class="form-grid" style="margin-top:14px">
+            <label class="full">
+              <span>Site Name</span>
+              <input type="text" name="siteName" />
+            </label>
+            <label class="full">
+              <span>Hero Title</span>
+              <input type="text" name="heroTitle" />
+            </label>
+            <label class="full">
+              <span>Hero Subtitle</span>
+              <input type="text" name="heroSubtitle" />
+            </label>
+            <label class="full">
+              <span>Featured Channel (shown in the hero preview)</span>
+              <select name="featuredId" id="featuredSelect">
+                <option value="">Auto — pick the first available channel</option>
+              </select>
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" name="maintenanceMode" />
+              <span>Maintenance mode (show "Coming Soon" on the site)</span>
+            </label>
+            <div class="full form-actions">
+              <button type="submit" class="btn btn-primary">Save Settings</button>
+              <span id="settingsMsg" class="form-msg"></span>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Change Admin Password</h2>
+          <form id="passwordForm" class="form-grid">
+            <label class="full">
+              <span>New Password</span>
+              <input type="password" name="newPassword" minlength="4" required />
+            </label>
+            <div class="full form-actions">
+              <button type="submit" class="btn btn-primary">Update Password</button>
+              <span id="passwordMsg" class="form-msg"></span>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Category & Country Management</h2>
+          <p class="muted">Manage channel classification. Items can be added or removed instantly.</p>
+
+          <div class="mgmt-grid" style="margin-top:20px">
+            <div class="mgmt-section">
+                <div class="mgmt-head">
+                    <span class="field-label">Categories</span>
+                    <div class="mgmt-actions">
+                        <input type="text" id="newCatInput" placeholder="New category..." />
+                        <button type="button" class="btn btn-primary btn-sm" id="addCatBtn">Add</button>
+                    </div>
+                </div>
+                <div class="tags-container" id="catTags"></div>
+            </div>
+
+            <div class="mgmt-section">
+                <div class="mgmt-head">
+                    <span class="field-label">Countries</span>
+                    <div class="mgmt-actions">
+                        <input type="text" id="newCountryCode" placeholder="🇧🇩" style="width:40px" maxlength="4" />
+                        <input type="text" id="newCountryName" placeholder="Name..." />
+                        <button type="button" class="btn btn-primary btn-sm" id="addCountryBtn">Add</button>
+                    </div>
+                </div>
+                <div class="tags-container" id="countryTags"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Preview / test player modal -->
+  <div id="previewModal" class="preview-modal hidden" role="dialog" aria-modal="true">
+    <div class="preview-backdrop"></div>
+    <div class="preview-shell">
+      <div class="preview-head">
+        <div class="preview-title">
+          <div class="preview-logo" id="previewLogo"></div>
+          <div>
+            <h3 id="previewName">Channel</h3>
+            <span class="preview-sub" id="previewSub">Testing stream…</span>
+          </div>
+        </div>
+        <button class="icon-btn" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="preview-video">
+        <video id="previewVideo" controls playsinline></video>
+        <div class="preview-state" id="previewLoading">
+          <div class="btn-spinner big"></div>
+          <span>Connecting to stream…</span>
+        </div>
+        <div class="preview-state hidden" id="previewFail">
+          <svg class="ic state-ico danger-text"><use href="#i-alert"/></svg>
+          <span>This stream is not responding. It may be offline or geo-restricted.</span>
+        </div>
+      </div>
+      <div class="preview-foot">
+        <span class="preview-verdict" id="previewVerdict"></span>
+        <div class="preview-foot-actions">
+          <button class="btn btn-ghost btn-sm" id="previewMarkBtn">Save health result</button>
+          <button class="btn btn-primary btn-sm" data-close>Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Channel Modal -->
+  <div id="editModal" class="edit-modal hidden" role="dialog" aria-modal="true">
+    <div class="edit-backdrop"></div>
+    <div class="edit-shell">
+      <div class="edit-head">
+        <div class="edit-head-left">
+          <div class="edit-head-icon"><svg class="ic"><use href="#i-edit"/></svg></div>
+          <div>
+            <h3>Edit Channel</h3>
+            <p class="muted" id="editSubtitle">Update channel details</p>
+          </div>
+        </div>
+        <button class="icon-btn" data-edit-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <form id="editForm" class="edit-body">
+        <input type="hidden" name="id" id="editId" />
+
+        <div class="edit-section">
+          <label class="field">
+            <span class="field-label">Channel Name <span class="req">*</span></span>
+            <input type="text" name="name" id="editName" required />
+          </label>
+          <label class="field">
+            <span class="field-label">Stream URL</span>
+            <input type="url" name="url" id="editUrl" placeholder="https://example.com/stream.m3u8" />
+          </label>
+        </div>
+
+        <div class="edit-section two-col">
+          <label class="field">
+            <span class="field-label">Category</span>
+            <select name="category" id="editCategory">
+              <!-- Dynamic categories -->
+            </select>
+          </label>
+          <label class="field">
+            <span class="field-label">Country</span>
+            <select name="country" id="editCountry">
+              <!-- Dynamic countries -->
+            </select>
+          </label>
+        </div>
+
+        <div class="edit-section">
+          <label class="field">
+            <span class="field-label">Logo URL</span>
+            <div class="edit-logo-row">
+              <div class="logo-preview sm" id="editLogoPreview">
+                <span class="logo-ph">No logo</span>
+              </div>
+              <div class="edit-logo-input">
+                <input type="url" name="logo" id="editLogo" placeholder="Paste a logo URL or upload" />
+                <label class="btn btn-ghost btn-sm upload-btn">
+                  <svg class="ic"><use href="#i-upload"/></svg> Upload
+                  <input type="file" id="editLogoFile" accept="image/*" hidden />
+                </label>
+                <span class="upload-status muted" id="editLogoStatus"></span>
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="edit-section">
+          <label class="toggle-label">
+            <input type="checkbox" name="active" id="editActive" class="toggle-check" />
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            <span>Active (visible on the public site)</span>
+          </label>
+        </div>
+      </form>
+      <div class="edit-foot">
+        <button class="btn btn-ghost" data-edit-close>Cancel</button>
+        <button class="btn btn-primary" id="editSaveBtn"><svg class="ic btn-ico"><use href="#i-check"/></svg> Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm modal -->
+  <div id="confirmModal" class="confirm-modal hidden">
+    <div class="confirm-card">
+      <h3 id="confirmTitle">Are you sure?</h3>
+      <p id="confirmText" class="muted">This action cannot be undone.</p>
+      <div class="confirm-actions">
+        <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
+        <button class="btn btn-danger" id="confirmOk">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="../assets/admin.js"></script>
+</body>
+</html>
