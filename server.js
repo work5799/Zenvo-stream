@@ -25,10 +25,22 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
   console.error('❌ Missing SUPABASE_URL or SUPABASE_SERVICE_KEY environment variables');
-  process.exit(1);
+  // Don't exit — let the request handler return a proper error instead
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+const supabase = SUPABASE_URL && SUPABASE_SERVICE_KEY
+  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+  : null;
+
+// Middleware to catch missing Supabase config early
+app.use((req, res, next) => {
+  if (!supabase && req.path.startsWith('/api/')) {
+    return res.status(500).json({
+      error: 'Server misconfigured: SUPABASE_URL and SUPABASE_SERVICE_KEY environment variables are not set in Vercel.'
+    });
+  }
+  next();
+});
 
 // ----------------------------- Middleware ----------------------------- //
 app.use(cors());
@@ -712,8 +724,14 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n  🎯 IPTV Server running (Supabase)`);
-  console.log(`  → Website: http://localhost:${PORT}`);
-  console.log(`  → Admin:   http://localhost:${PORT}/admin\n`);
-});
+// Vercel serverless: export app instead of calling listen
+// For local dev, start the server normally
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n  🎯 IPTV Server running (Supabase)`);
+    console.log(`  → Website: http://localhost:${PORT}`);
+    console.log(`  → Admin:   http://localhost:${PORT}/admin\n`);
+  });
+}
+
+module.exports = app;
