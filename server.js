@@ -45,7 +45,6 @@ app.use((req, res, next) => {
 // ----------------------------- Middleware ----------------------------- //
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
-app.use(express.static(path.join(__dirname)));
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -710,6 +709,8 @@ app.get('/api/channels/duplicates/analyze', authMiddleware, async (req, res) => 
 });
 
 // ----------------------------- Routes for HTML ----------------------------- //
+// NOTE: In Vercel, HTML files are served as static assets directly.
+// These routes are only used in local development.
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
