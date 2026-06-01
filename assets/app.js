@@ -78,12 +78,13 @@
     try {
       const settings = await api('/api/settings');
       applySettings(settings);
-      if (settings.maintenanceMode) {
+      if (settings.maintenanceMode === true) {
         maintenance.classList.remove('hidden');
         return;
       }
     } catch (err) {
       console.warn('Could not load settings', err);
+      // Don't block — continue loading channels even if settings fail
     }
 
     try {

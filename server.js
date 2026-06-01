@@ -6,6 +6,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
@@ -183,7 +184,8 @@ app.get('/api/channels', async (req, res) => {
     }));
     res.json(channels);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch channels' });
+    console.error('GET /api/channels error:', err.message);
+    res.status(500).json({ error: 'Failed to fetch channels: ' + err.message });
   }
 });
 
@@ -203,7 +205,7 @@ app.get('/api/settings', async (req, res) => {
       siteLogo: s.siteLogo || '',
       heroTitle: s.heroTitle,
       heroSubtitle: s.heroSubtitle,
-      maintenanceMode: s.maintenanceMode,
+      maintenanceMode: s.maintenanceMode === true ? true : false,
       featuredId: s.featuredId || '',
     };
 
@@ -213,7 +215,15 @@ app.get('/api/settings', async (req, res) => {
     }
     res.json(base);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch settings' });
+    // Return safe defaults so the frontend doesn't break
+    res.json({
+      siteName: 'Zenvo Stream',
+      siteLogo: '',
+      heroTitle: 'Live TV. Reimagined.',
+      heroSubtitle: 'Stream 1000+ premium channels worldwide in stunning quality.',
+      maintenanceMode: false,
+      featuredId: '',
+    });
   }
 });
 
@@ -709,15 +719,21 @@ app.get('/api/channels/duplicates/analyze', authMiddleware, async (req, res) => 
 });
 
 // ----------------------------- Routes for HTML ----------------------------- //
-// NOTE: In Vercel, HTML files are served as static assets directly.
-// These routes are only used in local development.
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf-8');
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);
 });
 
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin', 'index.html'));
+  const html = fs.readFileSync(path.join(__dirname, 'admin', 'index.html'), 'utf-8');
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);
 });
+
+// Serve static assets via Express (fallback for Vercel)
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ----------------------------- Error handler ----------------------------- //
 app.use((err, req, res, next) => {
