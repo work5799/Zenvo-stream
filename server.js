@@ -1,11 +1,10 @@
 /**
- * IPTV Streaming Server
- * Node.js + Express backend with JSON file storage
+ * IPTV Streaming Server - Supabase Edition
+ * Node.js + Express backend with Supabase (PostgreSQL + Storage)
  */
 
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -14,10 +13,22 @@ const rateLimit = require('express-rate-limit');
 const multer = require('multer');
 const https = require('https');
 const http = require('http');
+const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'iptv-2026-super-secret-change-in-production';
+
+// ----------------------------- Supabase ----------------------------- //
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+  console.error('❌ Missing SUPABASE_URL or SUPABASE_SERVICE_KEY environment variables');
+  process.exit(1);
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
 // ----------------------------- Middleware ----------------------------- //
 app.use(cors());
@@ -32,44 +43,20 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-// ----------------------------- Data Layer ----------------------------- //
-const DATA_DIR = path.join(__dirname, 'data');
-const CHANNELS_FILE = path.join(DATA_DIR, 'channels.json');
-const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
-const UPLOADS_DIR = path.join(__dirname, 'uploads');
-
-if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-app.use('/uploads', express.static(UPLOADS_DIR));
-
-// ----------------------------- File Uploads (multer) ----------------------------- //
+// ----------------------------- File Uploads (multer memory storage for Vercel) ----------------------------- //
 const ALLOWED_IMG = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml', 'image/gif'];
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase() || '.png';
-    cb(null, `${Date.now()}-${uuidv4().slice(0, 8)}${ext}`);
-  },
-});
 const upload = multer({
-  storage,
-  limits: { fileSize: 3 * 1024 * 1024 }, // 3 MB
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 3 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (ALLOWED_IMG.includes(file.mimetype)) cb(null, true);
     else cb(new Error('Only image files are allowed'));
   },
 });
 
-// Separate multer for M3U file uploads (larger limit, different file types)
-const m3uStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase() || '.m3u';
-    cb(null, `m3u-${Date.now()}${ext}`);
-  },
-});
 const uploadM3U = multer({
-  storage: m3uStorage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB (M3U files can be large)
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowed = ['.m3u', '.m3u8', '.txt'];
     const ext = path.extname(file.originalname).toLowerCase();
@@ -81,135 +68,67 @@ const uploadM3U = multer({
   },
 });
 
-function ensureDataFiles() {
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-
-  if (!fs.existsSync(CHANNELS_FILE)) {
-    const seedChannels = [
-      {
-        id: uuidv4(),
-        name: 'BTV National',
-        url: 'https://raw.githubusercontent.com/imShakil/tvlink/refs/heads/main/iptv.m3u8',
-        category: 'Bangladesh',
-        country: '🇧🇩',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/BTV_logo.svg/200px-BTV_logo.svg.png',
-        active: true,
-        addedAt: new Date().toISOString(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Maasranga TV',
-        url: '',
-        category: 'Bangladesh',
-        country: '🇧🇩',
-        logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/49/Maasranga_Television_logo.svg/200px-Maasranga_Television_logo.svg.png',
-        active: true,
-        addedAt: new Date().toISOString(),
-      },
-      {
-        id: uuidv4(),
-        name: 'GTV',
-        url: '',
-        category: 'Bangladesh',
-        country: '🇧🇩',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Gazi_TV_logo.svg/200px-Gazi_TV_logo.svg.png',
-        active: true,
-        addedAt: new Date().toISOString(),
-      },
-      {
-        id: uuidv4(),
-        name: 'T Sports',
-        url: '',
-        category: 'Sports',
-        country: '🇧🇩',
-        logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/T_Sports_logo.svg/200px-T_Sports_logo.svg.png',
-        active: true,
-        addedAt: new Date().toISOString(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Star Sports',
-        url: '',
-        category: 'Sports',
-        country: '🇮🇳',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Star_Sports_2017_logo.svg/200px-Star_Sports_2017_logo.svg.png',
-        active: true,
-        addedAt: new Date().toISOString(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Sony LIV',
-        url: '',
-        category: 'India',
-        country: '🇮🇳',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/SonyLIV_logo.svg/200px-SonyLIV_logo.svg.png',
-        active: true,
-        addedAt: new Date().toISOString(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Zee Bangla',
-        url: '',
-        category: 'India',
-        country: '🇮🇳',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Zee_Bangla.png/200px-Zee_Bangla.png',
-        active: true,
-        addedAt: new Date().toISOString(),
-      },
-      {
-        id: uuidv4(),
-        name: 'Star Jalsha',
-        url: '',
-        category: 'India',
-        country: '🇮🇳',
-        logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/Star_Jalsha_logo.svg/200px-Star_Jalsha_logo.svg.png',
-        active: true,
-        addedAt: new Date().toISOString(),
-      },
-    ];
-    fs.writeFileSync(CHANNELS_FILE, JSON.stringify(seedChannels, null, 2));
-  }
-
-  if (!fs.existsSync(SETTINGS_FILE)) {
-    const defaultPassword = bcrypt.hashSync('iptv2026', 10);
-    const defaultSettings = {
-      siteName: 'StreamX IPTV',
-      siteLogo: '',
-      heroTitle: 'Live TV. Reimagined.',
-      heroSubtitle: 'Stream 1000+ premium channels worldwide in stunning quality.',
-      maintenanceMode: false,
-      featuredId: '',
-      adminUsername: 'admin',
-      adminPasswordHash: defaultPassword,
-    };
-    fs.writeFileSync(SETTINGS_FILE, JSON.stringify(defaultSettings, null, 2));
-  }
-}
-
-function readChannels() {
-  // Re-create seed data if files were removed while running
-  if (!fs.existsSync(CHANNELS_FILE) || !fs.existsSync(SETTINGS_FILE)) ensureDataFiles();
-  const channels = JSON.parse(fs.readFileSync(CHANNELS_FILE, 'utf-8'));
-  // Normalize: ensure every channel has a health status
-  // status: 'unknown' | 'online' | 'offline'
-  return channels.map((c) => ({
-    status: 'unknown',
-    lastChecked: null,
-    ...c,
+// ----------------------------- Data Layer (Supabase) ----------------------------- //
+async function readChannels() {
+  const { data, error } = await supabase
+    .from('channels')
+    .select('*')
+    .order('added_at', { ascending: true });
+  if (error) throw error;
+  // Map DB columns to camelCase for frontend compatibility
+  return (data || []).map(c => ({
+    id: c.id,
+    name: c.name,
+    url: c.url || '',
+    category: c.category || 'Other',
+    country: c.country || '🌐',
+    logo: c.logo || '',
+    active: c.active,
+    status: c.status || 'unknown',
+    lastChecked: c.last_checked,
+    addedAt: c.added_at,
   }));
 }
-function writeChannels(channels) {
-  fs.writeFileSync(CHANNELS_FILE, JSON.stringify(channels, null, 2));
-}
-function readSettings() {
-  if (!fs.existsSync(SETTINGS_FILE)) ensureDataFiles();
-  return JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf-8'));
-}
-function writeSettings(settings) {
-  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings, null, 2));
+
+async function readSettings() {
+  const { data, error } = await supabase
+    .from('settings')
+    .select('*')
+    .eq('id', 1)
+    .single();
+  if (error) throw error;
+  return {
+    siteName: data.site_name,
+    siteLogo: data.site_logo || '',
+    heroTitle: data.hero_title,
+    heroSubtitle: data.hero_subtitle,
+    maintenanceMode: data.maintenance_mode,
+    featuredId: data.featured_id || '',
+    adminUsername: data.admin_username,
+    adminPasswordHash: data.admin_password_hash,
+    categories: data.categories || [],
+    countries: data.countries || [],
+  };
 }
 
-ensureDataFiles();
+async function writeSettings(settings) {
+  const { error } = await supabase
+    .from('settings')
+    .update({
+      site_name: settings.siteName,
+      site_logo: settings.siteLogo || '',
+      hero_title: settings.heroTitle,
+      hero_subtitle: settings.heroSubtitle,
+      maintenance_mode: settings.maintenanceMode,
+      featured_id: settings.featuredId || '',
+      admin_username: settings.adminUsername,
+      admin_password_hash: settings.adminPasswordHash,
+      categories: settings.categories,
+      countries: settings.countries,
+    })
+    .eq('id', 1);
+  if (error) throw error;
+}
 
 // ----------------------------- Auth ----------------------------- //
 function authMiddleware(req, res, next) {
@@ -238,182 +157,288 @@ function validateChannelInput(body) {
 }
 
 // ----------------------------- Public Routes ----------------------------- //
-app.get('/api/channels', (req, res) => {
-  const channels = readChannels().filter((c) => c.active);
-  res.json(channels);
+app.get('/api/channels', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('channels')
+      .select('*')
+      .eq('active', true)
+      .order('added_at', { ascending: true });
+    if (error) throw error;
+    const channels = (data || []).map(c => ({
+      id: c.id, name: c.name, url: c.url || '', category: c.category || 'Other',
+      country: c.country || '🌐', logo: c.logo || '', active: c.active,
+      status: c.status || 'unknown', lastChecked: c.last_checked, addedAt: c.added_at,
+    }));
+    res.json(channels);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch channels' });
+  }
 });
 
-app.get('/api/settings', (req, res) => {
-  const s = readSettings();
-  const authHeader = req.headers.authorization || '';
-  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+app.get('/api/settings', async (req, res) => {
+  try {
+    const s = await readSettings();
+    const authHeader = req.headers.authorization || '';
+    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
 
-  let isAdmin = false;
-  if (token) {
-    try { jwt.verify(token, JWT_SECRET); isAdmin = true; } catch {}
+    let isAdmin = false;
+    if (token) {
+      try { jwt.verify(token, JWT_SECRET); isAdmin = true; } catch {}
+    }
+
+    const base = {
+      siteName: s.siteName,
+      siteLogo: s.siteLogo || '',
+      heroTitle: s.heroTitle,
+      heroSubtitle: s.heroSubtitle,
+      maintenanceMode: s.maintenanceMode,
+      featuredId: s.featuredId || '',
+    };
+
+    if (isAdmin) {
+      base.categories = s.categories || [];
+      base.countries = s.countries || [];
+    }
+    res.json(base);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch settings' });
   }
-
-  // Public-safe subset for non-admin, full data for admin
-  const base = {
-    siteName: s.siteName,
-    siteLogo: s.siteLogo || '',
-    heroTitle: s.heroTitle,
-    heroSubtitle: s.heroSubtitle,
-    maintenanceMode: s.maintenanceMode,
-    featuredId: s.featuredId || '',
-  };
-
-  if (isAdmin) {
-    base.categories = s.categories || [];
-    base.countries = s.countries || [];
-  }
-
-  res.json(base);
 });
 
 // ----------------------------- Auth Route ----------------------------- //
 app.post('/api/auth/login', loginLimiter, async (req, res) => {
-  const { username, password } = req.body || {};
-  if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
+  try {
+    const { username, password } = req.body || {};
+    if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
 
-  const settings = readSettings();
-  if (username !== settings.adminUsername) {
-    return res.status(401).json({ error: 'Invalid credentials' });
+    const settings = await readSettings();
+    if (username !== settings.adminUsername) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    const ok = await bcrypt.compare(password, settings.adminPasswordHash);
+    if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
+
+    const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ token, username });
+  } catch (err) {
+    res.status(500).json({ error: 'Login failed' });
   }
-  const ok = await bcrypt.compare(password, settings.adminPasswordHash);
-  if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
-
-  const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '7d' });
-  res.json({ token, username });
 });
 
 // ----------------------------- Admin Channel Routes ----------------------------- //
-app.get('/api/channels/all', authMiddleware, (req, res) => {
-  res.json(readChannels());
-});
-
-app.post('/api/channels', authMiddleware, (req, res) => {
-  const errors = validateChannelInput(req.body);
-  if (errors.length) return res.status(400).json({ error: errors.join(', ') });
-
-  const channels = readChannels();
-  const channel = {
-    id: uuidv4(),
-    name: req.body.name.trim(),
-    url: (req.body.url || '').trim(),
-    category: req.body.category || 'Other',
-    country: req.body.country || '🌐',
-    logo: req.body.logo || '',
-    active: req.body.active !== false,
-    status: 'unknown',
-    lastChecked: null,
-    addedAt: new Date().toISOString(),
-  };
-  channels.push(channel);
-  writeChannels(channels);
-  res.status(201).json(channel);
-});
-
-app.put('/api/channels/:id', authMiddleware, (req, res) => {
-  const channels = readChannels();
-  const idx = channels.findIndex((c) => c.id === req.params.id);
-  if (idx === -1) return res.status(404).json({ error: 'Channel not found' });
-
-  const urlChanged = req.body.url !== undefined && req.body.url !== channels[idx].url;
-  channels[idx] = {
-    ...channels[idx],
-    ...req.body,
-    id: channels[idx].id,
-    addedAt: channels[idx].addedAt,
-  };
-  // If the stream URL changed, its previous health result no longer applies
-  if (urlChanged) {
-    channels[idx].status = 'unknown';
-    channels[idx].lastChecked = null;
+app.get('/api/channels/all', authMiddleware, async (req, res) => {
+  try {
+    const channels = await readChannels();
+    res.json(channels);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch channels' });
   }
-  writeChannels(channels);
-  res.json(channels[idx]);
 });
 
-app.delete('/api/channels/:id', authMiddleware, (req, res) => {
-  const channels = readChannels();
-  const filtered = channels.filter((c) => c.id !== req.params.id);
-  if (filtered.length === channels.length) return res.status(404).json({ error: 'Channel not found' });
-  writeChannels(filtered);
-  res.json({ success: true });
-});
+app.post('/api/channels', authMiddleware, async (req, res) => {
+  try {
+    const errors = validateChannelInput(req.body);
+    if (errors.length) return res.status(400).json({ error: errors.join(', ') });
 
-app.patch('/api/channels/:id/toggle', authMiddleware, (req, res) => {
-  const channels = readChannels();
-  const idx = channels.findIndex((c) => c.id === req.params.id);
-  if (idx === -1) return res.status(404).json({ error: 'Channel not found' });
-  channels[idx].active = !channels[idx].active;
-  writeChannels(channels);
-  res.json(channels[idx]);
-});
+    const { data, error } = await supabase
+      .from('channels')
+      .insert({
+        name: req.body.name.trim(),
+        url: (req.body.url || '').trim(),
+        category: req.body.category || 'Other',
+        country: req.body.country || '🌐',
+        logo: req.body.logo || '',
+        active: req.body.active !== false,
+        status: 'unknown',
+        last_checked: null,
+      })
+      .select()
+      .single();
+    if (error) throw error;
 
-app.delete('/api/channels/inactive/all', authMiddleware, (req, res) => {
-  const channels = readChannels();
-  const remaining = channels.filter((c) => c.active);
-  const removed = channels.length - remaining.length;
-  writeChannels(remaining);
-  res.json({ removed });
-});
-
-// Delete every channel whose last health check was 'offline'
-app.delete('/api/channels/offline/all', authMiddleware, (req, res) => {
-  const channels = readChannels();
-  const remaining = channels.filter((c) => c.status !== 'offline');
-  const removed = channels.length - remaining.length;
-  writeChannels(remaining);
-
-  // If the featured channel was removed, clear it
-  const settings = readSettings();
-  if (settings.featuredId && !remaining.some((c) => c.id === settings.featuredId)) {
-    settings.featuredId = '';
-    writeSettings(settings);
+    res.status(201).json({
+      id: data.id, name: data.name, url: data.url, category: data.category,
+      country: data.country, logo: data.logo, active: data.active,
+      status: data.status, lastChecked: data.last_checked, addedAt: data.added_at,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to add channel: ' + err.message });
   }
-  res.json({ removed });
+});
+
+app.put('/api/channels/:id', authMiddleware, async (req, res) => {
+  try {
+    // Fetch current channel to check URL change
+    const { data: existing, error: fetchErr } = await supabase
+      .from('channels')
+      .select('*')
+      .eq('id', req.params.id)
+      .single();
+    if (fetchErr || !existing) return res.status(404).json({ error: 'Channel not found' });
+
+    const urlChanged = req.body.url !== undefined && req.body.url !== existing.url;
+    const updateData = {};
+    if (req.body.name !== undefined) updateData.name = req.body.name;
+    if (req.body.url !== undefined) updateData.url = req.body.url;
+    if (req.body.category !== undefined) updateData.category = req.body.category;
+    if (req.body.country !== undefined) updateData.country = req.body.country;
+    if (req.body.logo !== undefined) updateData.logo = req.body.logo;
+    if (req.body.active !== undefined) updateData.active = req.body.active;
+    if (urlChanged) {
+      updateData.status = 'unknown';
+      updateData.last_checked = null;
+    }
+
+    const { data, error } = await supabase
+      .from('channels')
+      .update(updateData)
+      .eq('id', req.params.id)
+      .select()
+      .single();
+    if (error) throw error;
+
+    res.json({
+      id: data.id, name: data.name, url: data.url, category: data.category,
+      country: data.country, logo: data.logo, active: data.active,
+      status: data.status, lastChecked: data.last_checked, addedAt: data.added_at,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update channel' });
+  }
+});
+
+app.delete('/api/channels/:id', authMiddleware, async (req, res) => {
+  try {
+    const { error } = await supabase.from('channels').delete().eq('id', req.params.id);
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete channel' });
+  }
+});
+
+app.patch('/api/channels/:id/toggle', authMiddleware, async (req, res) => {
+  try {
+    const { data: existing } = await supabase
+      .from('channels').select('active').eq('id', req.params.id).single();
+    if (!existing) return res.status(404).json({ error: 'Channel not found' });
+
+    const { data, error } = await supabase
+      .from('channels')
+      .update({ active: !existing.active })
+      .eq('id', req.params.id)
+      .select()
+      .single();
+    if (error) throw error;
+
+    res.json({
+      id: data.id, name: data.name, url: data.url, category: data.category,
+      country: data.country, logo: data.logo, active: data.active,
+      status: data.status, lastChecked: data.last_checked, addedAt: data.added_at,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to toggle channel' });
+  }
+});
+
+app.delete('/api/channels/inactive/all', authMiddleware, async (req, res) => {
+  try {
+    const { data: inactive } = await supabase
+      .from('channels').select('id').eq('active', false);
+    const removed = (inactive || []).length;
+    if (removed > 0) {
+      await supabase.from('channels').delete().eq('active', false);
+    }
+    res.json({ removed });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete inactive channels' });
+  }
+});
+
+app.delete('/api/channels/offline/all', authMiddleware, async (req, res) => {
+  try {
+    const { data: offline } = await supabase
+      .from('channels').select('id').eq('status', 'offline');
+    const removed = (offline || []).length;
+    if (removed > 0) {
+      await supabase.from('channels').delete().eq('status', 'offline');
+    }
+    // Clear featured if it was removed
+    const settings = await readSettings();
+    if (settings.featuredId) {
+      const { data: exists } = await supabase
+        .from('channels').select('id').eq('id', settings.featuredId).single();
+      if (!exists) {
+        settings.featuredId = '';
+        await writeSettings(settings);
+      }
+    }
+    res.json({ removed });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete offline channels' });
+  }
 });
 
 // ----------------------------- Admin Settings ----------------------------- //
 app.put('/api/settings', authMiddleware, async (req, res) => {
-  const current = readSettings();
-  const updated = { ...current };
+  try {
+    const current = await readSettings();
+    const updated = { ...current };
 
-  if (typeof req.body.siteName === 'string') updated.siteName = req.body.siteName;
-  if (typeof req.body.siteLogo === 'string') updated.siteLogo = req.body.siteLogo;
-  if (typeof req.body.heroTitle === 'string') updated.heroTitle = req.body.heroTitle;
-  if (typeof req.body.heroSubtitle === 'string') updated.heroSubtitle = req.body.heroSubtitle;
-  if (typeof req.body.maintenanceMode === 'boolean') updated.maintenanceMode = req.body.maintenanceMode;
-  if (typeof req.body.featuredId === 'string') updated.featuredId = req.body.featuredId;
-  if (Array.isArray(req.body.categories)) updated.categories = req.body.categories;
-  if (Array.isArray(req.body.countries)) updated.countries = req.body.countries;
+    if (typeof req.body.siteName === 'string') updated.siteName = req.body.siteName;
+    if (typeof req.body.siteLogo === 'string') updated.siteLogo = req.body.siteLogo;
+    if (typeof req.body.heroTitle === 'string') updated.heroTitle = req.body.heroTitle;
+    if (typeof req.body.heroSubtitle === 'string') updated.heroSubtitle = req.body.heroSubtitle;
+    if (typeof req.body.maintenanceMode === 'boolean') updated.maintenanceMode = req.body.maintenanceMode;
+    if (typeof req.body.featuredId === 'string') updated.featuredId = req.body.featuredId;
+    if (Array.isArray(req.body.categories)) updated.categories = req.body.categories;
+    if (Array.isArray(req.body.countries)) updated.countries = req.body.countries;
 
-  if (req.body.newPassword) {
-    if (typeof req.body.newPassword !== 'string' || req.body.newPassword.length < 4) {
-      return res.status(400).json({ error: 'Password must be at least 4 characters' });
+    if (req.body.newPassword) {
+      if (typeof req.body.newPassword !== 'string' || req.body.newPassword.length < 4) {
+        return res.status(400).json({ error: 'Password must be at least 4 characters' });
+      }
+      updated.adminPasswordHash = await bcrypt.hash(req.body.newPassword, 10);
     }
-    updated.adminPasswordHash = await bcrypt.hash(req.body.newPassword, 10);
-  }
 
-  writeSettings(updated);
-  res.json({
-    siteName: updated.siteName,
-    siteLogo: updated.siteLogo || '',
-    heroTitle: updated.heroTitle,
-    heroSubtitle: updated.heroSubtitle,
-    maintenanceMode: updated.maintenanceMode,
-    featuredId: updated.featuredId || '',
-  });
+    await writeSettings(updated);
+    res.json({
+      siteName: updated.siteName, siteLogo: updated.siteLogo || '',
+      heroTitle: updated.heroTitle, heroSubtitle: updated.heroSubtitle,
+      maintenanceMode: updated.maintenanceMode, featuredId: updated.featuredId || '',
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update settings' });
+  }
 });
 
-// ----------------------------- File Upload (logos) ----------------------------- //
+// ----------------------------- File Upload (logos → Supabase Storage) ----------------------------- //
 app.post('/api/upload', authMiddleware, (req, res) => {
-  upload.single('image')(req, res, (err) => {
+  upload.single('image')(req, res, async (err) => {
     if (err) return res.status(400).json({ error: err.message });
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-    res.json({ url: `/uploads/${req.file.filename}` });
+
+    try {
+      const ext = path.extname(req.file.originalname).toLowerCase() || '.png';
+      const filename = `${Date.now()}-${uuidv4().slice(0, 8)}${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('uploads')
+        .upload(filename, req.file.buffer, {
+          contentType: req.file.mimetype,
+          upsert: false,
+        });
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrl } = supabase.storage
+        .from('uploads')
+        .getPublicUrl(filename);
+
+      res.json({ url: publicUrl.publicUrl });
+    } catch (uploadErr) {
+      res.status(500).json({ error: 'Upload failed: ' + uploadErr.message });
+    }
   });
 });
 
@@ -469,11 +494,8 @@ app.post('/api/import-m3u', authMiddleware, async (req, res) => {
   try {
     const content = await fetchUrl(url);
     const parsed = parseM3U(content);
-    const channels = readChannels();
-    const now = new Date().toISOString();
 
     const newChannels = parsed.map((p) => ({
-      id: uuidv4(),
       name: p.name,
       url: p.url || '',
       category: p.category || 'Imported',
@@ -481,31 +503,29 @@ app.post('/api/import-m3u', authMiddleware, async (req, res) => {
       logo: p.logo || '',
       active: true,
       status: 'unknown',
-      lastChecked: null,
-      addedAt: now,
+      last_checked: null,
     }));
 
-    writeChannels([...channels, ...newChannels]);
+    if (newChannels.length > 0) {
+      const { error } = await supabase.from('channels').insert(newChannels);
+      if (error) throw error;
+    }
     res.json({ imported: newChannels.length });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch or parse M3U: ' + err.message });
   }
 });
 
-// Import M3U from uploaded file
 app.post('/api/import-m3u-file', authMiddleware, (req, res) => {
-  uploadM3U.single('file')(req, res, (err) => {
+  uploadM3U.single('file')(req, res, async (err) => {
     if (err) return res.status(400).json({ error: err.message });
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
     try {
-      const content = fs.readFileSync(req.file.path, 'utf-8');
+      const content = req.file.buffer.toString('utf-8');
       const parsed = parseM3U(content);
-      const channels = readChannels();
-      const now = new Date().toISOString();
 
       const newChannels = parsed.map((p) => ({
-        id: uuidv4(),
         name: p.name,
         url: p.url || '',
         category: p.category || 'Imported',
@@ -513,45 +533,57 @@ app.post('/api/import-m3u-file', authMiddleware, (req, res) => {
         logo: p.logo || '',
         active: true,
         status: 'unknown',
-        lastChecked: null,
-        addedAt: now,
+        last_checked: null,
       }));
 
-      writeChannels([...channels, ...newChannels]);
-
-      // Clean up uploaded file
-      fs.unlinkSync(req.file.path);
-
+      if (newChannels.length > 0) {
+        const { error } = await supabase.from('channels').insert(newChannels);
+        if (error) throw error;
+      }
       res.json({ imported: newChannels.length });
     } catch (parseErr) {
-      // Clean up on error too
-      try { fs.unlinkSync(req.file.path); } catch {}
       res.status(500).json({ error: 'Failed to parse M3U file: ' + parseErr.message });
     }
   });
 });
 
-app.get('/api/export-m3u', authMiddleware, (req, res) => {
-  const channels = readChannels();
-  let m3u = '#EXTM3U\n';
-  for (const c of channels) {
-    m3u += `#EXTINF:-1 tvg-logo="${c.logo || ''}" group-title="${c.category || ''}",${c.name}\n`;
-    m3u += `${c.url || ''}\n`;
+app.get('/api/export-m3u', authMiddleware, async (req, res) => {
+  try {
+    const channels = await readChannels();
+    let m3u = '#EXTM3U\n';
+    for (const c of channels) {
+      m3u += `#EXTINF:-1 tvg-logo="${c.logo || ''}" group-title="${c.category || ''}",${c.name}\n`;
+      m3u += `${c.url || ''}\n`;
+    }
+    res.setHeader('Content-Type', 'audio/x-mpegurl');
+    res.setHeader('Content-Disposition', 'attachment; filename="channels.m3u"');
+    res.send(m3u);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to export' });
   }
-  res.setHeader('Content-Type', 'audio/x-mpegurl');
-  res.setHeader('Content-Disposition', 'attachment; filename="channels.m3u"');
-  res.send(m3u);
 });
 
-/**
- * Probe a single stream URL and measure performance.
- */
+// ----------------------------- Stream Health Check ----------------------------- //
+function checkStream(url, timeoutMs = 8000) {
+  return new Promise((resolve) => {
+    if (!url || typeof url !== 'string' || !/^https?:\/\//i.test(url)) {
+      return resolve(false);
+    }
+    const client = url.startsWith('https') ? https : http;
+    const req = client.get(url, { timeout: timeoutMs }, (res) => {
+      res.destroy();
+      resolve(res.statusCode >= 200 && res.statusCode < 400);
+    });
+    req.on('timeout', () => { req.destroy(); resolve(false); });
+    req.on('error', () => resolve(false));
+  });
+}
+
 function checkStreamPerformance(url, timeoutMs = 8000) {
   return new Promise((resolve) => {
     if (!url || typeof url !== 'string' || !/^https?:\/\//i.test(url)) {
       return resolve({ online: false, latency: 99999 });
     }
-
     const start = Date.now();
     let settled = false;
     const done = (online) => {
@@ -559,111 +591,110 @@ function checkStreamPerformance(url, timeoutMs = 8000) {
       settled = true;
       resolve({ online, latency: online ? Date.now() - start : 99999 });
     };
-
     const client = url.startsWith('https') ? https : http;
     const req = client.get(url, { timeout: timeoutMs }, (res) => {
       if (res.statusCode >= 200 && res.statusCode < 400) {
-        res.destroy();
-        done(true);
-      } else {
-        res.destroy();
-        done(false);
-      }
+        res.destroy(); done(true);
+      } else { res.destroy(); done(false); }
     });
-
     req.on('timeout', () => { req.destroy(); done(false); });
     req.on('error', () => done(false));
   });
 }
 
-// Find duplicates and analyze performance
-app.get('/api/channels/duplicates/analyze', authMiddleware, async (req, res) => {
-  const channels = readChannels();
-  const nameMap = {};
-  const urlMap = {};
-  const duplicates = [];
-
-  // Identify duplicates by name or URL
-  channels.forEach(ch => {
-    const nameKey = ch.name.toLowerCase().trim();
-    const urlKey = ch.url.toLowerCase().trim();
-
-    if (!nameMap[nameKey]) nameMap[nameKey] = [];
-    nameMap[nameKey].push(ch);
-
-    if (urlKey && !urlMap[urlKey]) urlMap[urlKey] = [];
-    if (urlKey) urlMap[urlKey].push(ch);
-  });
-
-  // Collect unique duplicate groups
-  const processedIds = new Set();
-  const groups = [];
-
-  [nameMap, urlMap].forEach(map => {
-    for (const key in map) {
-      if (map[key].length > 1) {
-        const group = map[key].filter(ch => !processedIds.has(ch.id));
-        if (group.length > 1) {
-          group.forEach(ch => processedIds.add(ch.id));
-          groups.push({ key, channels: group });
-        }
-      }
-    }
-  });
-
-  // Analyze performance for each duplicate in the groups
-  const analyzedGroups = await Promise.all(groups.map(async group => {
-    const results = await Promise.all(group.channels.map(async ch => {
-      const perf = await checkStreamPerformance(ch.url, 12000); // Increased timeout to 12s
-      return { ...ch, ...perf };
-    }));
-
-    // Sort by latency (fastest first)
-    results.sort((a, b) => a.latency - b.latency);
-    return {
-      key: group.key,
-      bestId: results[0].online ? results[0].id : results[0].id, // Pick top result as best
-      items: results
-    };
-  }));
-
-  res.json(analyzedGroups);
-});
-
 // Check a single channel
 app.post('/api/channels/:id/check', authMiddleware, async (req, res) => {
-  const channels = readChannels();
-  const idx = channels.findIndex((c) => c.id === req.params.id);
-  if (idx === -1) return res.status(404).json({ error: 'Channel not found' });
+  try {
+    const { data: ch } = await supabase
+      .from('channels').select('*').eq('id', req.params.id).single();
+    if (!ch) return res.status(404).json({ error: 'Channel not found' });
 
-  const online = await checkStream(channels[idx].url);
-  channels[idx].status = online ? 'online' : 'offline';
-  channels[idx].lastChecked = new Date().toISOString();
-  writeChannels(channels);
-  res.json({ id: channels[idx].id, status: channels[idx].status, lastChecked: channels[idx].lastChecked });
+    const online = await checkStream(ch.url);
+    const now = new Date().toISOString();
+    await supabase.from('channels')
+      .update({ status: online ? 'online' : 'offline', last_checked: now })
+      .eq('id', req.params.id);
+
+    res.json({ id: ch.id, status: online ? 'online' : 'offline', lastChecked: now });
+  } catch (err) {
+    res.status(500).json({ error: 'Check failed' });
+  }
 });
 
-// Check ALL channels (concurrency-limited)
+// Check ALL channels
 app.post('/api/channels/check-all', authMiddleware, async (req, res) => {
-  const channels = readChannels();
-  const now = new Date().toISOString();
-  const CONCURRENCY = 8;
+  try {
+    const channels = await readChannels();
+    const now = new Date().toISOString();
+    const CONCURRENCY = 8;
 
-  let cursor = 0;
-  async function worker() {
-    while (cursor < channels.length) {
-      const i = cursor++;
-      const online = await checkStream(channels[i].url);
-      channels[i].status = online ? 'online' : 'offline';
-      channels[i].lastChecked = now;
+    let cursor = 0;
+    const results = [...channels];
+    async function worker() {
+      while (cursor < results.length) {
+        const i = cursor++;
+        const online = await checkStream(results[i].url);
+        results[i].status = online ? 'online' : 'offline';
+        results[i].lastChecked = now;
+        // Update in DB
+        await supabase.from('channels')
+          .update({ status: results[i].status, last_checked: now })
+          .eq('id', results[i].id);
+      }
     }
-  }
-  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, channels.length) }, worker));
-  writeChannels(channels);
+    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, results.length) }, worker));
 
-  const online = channels.filter((c) => c.status === 'online').length;
-  const offline = channels.filter((c) => c.status === 'offline').length;
-  res.json({ checked: channels.length, online, offline, channels });
+    const online = results.filter(c => c.status === 'online').length;
+    const offline = results.filter(c => c.status === 'offline').length;
+    res.json({ checked: results.length, online, offline, channels: results });
+  } catch (err) {
+    res.status(500).json({ error: 'Check-all failed' });
+  }
+});
+
+// Duplicate analysis
+app.get('/api/channels/duplicates/analyze', authMiddleware, async (req, res) => {
+  try {
+    const channels = await readChannels();
+    const nameMap = {};
+    const urlMap = {};
+
+    channels.forEach(ch => {
+      const nameKey = ch.name.toLowerCase().trim();
+      const urlKey = ch.url.toLowerCase().trim();
+      if (!nameMap[nameKey]) nameMap[nameKey] = [];
+      nameMap[nameKey].push(ch);
+      if (urlKey && !urlMap[urlKey]) urlMap[urlKey] = [];
+      if (urlKey) urlMap[urlKey].push(ch);
+    });
+
+    const processedIds = new Set();
+    const groups = [];
+    [nameMap, urlMap].forEach(map => {
+      for (const key in map) {
+        if (map[key].length > 1) {
+          const group = map[key].filter(ch => !processedIds.has(ch.id));
+          if (group.length > 1) {
+            group.forEach(ch => processedIds.add(ch.id));
+            groups.push({ key, channels: group });
+          }
+        }
+      }
+    });
+
+    const analyzedGroups = await Promise.all(groups.map(async group => {
+      const results = await Promise.all(group.channels.map(async ch => {
+        const perf = await checkStreamPerformance(ch.url, 12000);
+        return { ...ch, ...perf };
+      }));
+      results.sort((a, b) => a.latency - b.latency);
+      return { key: group.key, bestId: results[0].id, items: results };
+    }));
+
+    res.json(analyzedGroups);
+  } catch (err) {
+    res.status(500).json({ error: 'Duplicate analysis failed' });
+  }
 });
 
 // ----------------------------- Routes for HTML ----------------------------- //
@@ -682,8 +713,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`\n  🎯 IPTV Server running`);
+  console.log(`\n  🎯 IPTV Server running (Supabase)`);
   console.log(`  → Website: http://localhost:${PORT}`);
-  console.log(`  → Admin:   http://localhost:${PORT}/admin`);
-  console.log(`  → Login:   admin / iptv2026\n`);
+  console.log(`  → Admin:   http://localhost:${PORT}/admin\n`);
 });
