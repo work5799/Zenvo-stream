@@ -15,6 +15,7 @@ const multer = require('multer');
 const https = require('https');
 const http = require('http');
 const { createClient } = require('@supabase/supabase-js');
+const { runMigration } = require('./migrate');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,6 +33,9 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
 const supabase = SUPABASE_URL && SUPABASE_SERVICE_KEY
   ? createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
   : null;
+
+// Auto-run migration on startup (creates tables + seeds defaults if missing)
+runMigration(supabase).catch(err => console.error('Migration failed:', err.message));
 
 // Middleware to catch missing Supabase config early
 app.use((req, res, next) => {
