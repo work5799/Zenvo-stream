@@ -247,8 +247,46 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
     const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '7d' });
     res.json({ token, username });
   } catch (err) {
-    res.status(500).json({ error: 'Login failed' });
+    console.error('Login error:', err.message);
+    res.status(500).json({ error: 'Login failed: ' + err.message });
   }
+});
+
+// ----------------------------- Debug Route (remove after fixing) -------- //
+app.get('/api/debug', async (req, res) => {
+  const result = {
+    supabaseConfigured: !!(SUPABASE_URL && SUPABASE_SERVICE_KEY),
+    supabaseUrl: SUPABASE_URL ? SUPABASE_URL.slice(0, 30) + '...' : 'NOT SET',
+    serviceKeySet: !!SUPABASE_SERVICE_KEY,
+  };
+
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('settings')
+        .select('id, admin_username, maintenance_mode, site_name')
+        .eq('id', 1)
+        .maybeSingle();
+      result.settingsTableExists = !error;
+      result.settingsRow = error ? null : data;
+      result.settingsError = error ? error.message : null;
+    } catch (e) {
+      result.settingsError = e.message;
+    }
+
+    try {
+      const { count, error } = await supabase
+        .from('channels')
+        .select('*', { count: 'exact', head: true });
+      result.channelsTableExists = !error;
+      result.channelsCount = error ? null : count;
+      result.channelsError = error ? error.message : null;
+    } catch (e) {
+      result.channelsError = e.message;
+    }
+  }
+
+  res.json(result);
 });
 
 // ----------------------------- Admin Channel Routes ----------------------------- //
