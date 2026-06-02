@@ -255,82 +255,175 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
   }
 });
 
-// ----------------------------- One-time Setup Route ----------------------------- //
-// Protected: requires ?secret=YOUR_JWT_SECRET in query
-app.get('/api/setup', async (req, res) => {
-  // Only accessible with the correct secret key
-  const provided = req.query.secret || '';
-  if (!provided || provided !== JWT_SECRET) {
-    return res.status(403).json({ error: 'Forbidden' });
-  }
-
+// ============================================================
+// /api/init — Creates tables + seeds data in ONE request
+// Visit: yoursite.vercel.app/api/init
+// ============================================================
+app.get('/api/init', async (req, res) => {
   if (!supabase) {
-    return res.status(500).json({ error: 'Supabase not configured. Set env vars first.' });
+    return res.status(500).send(`
+      <h2>❌ Supabase not configured</h2>
+      <p>Set SUPABASE_URL and SUPABASE_SERVICE_KEY in Vercel Environment Variables</p>
+    `);
   }
 
-  const log = [];
+  const SUPABASE_URL  = process.env.SUPABASE_URL;
+  const SERVICE_KEY   = process.env.SUPABASE_SERVICE_KEY;
+  const projectRef    = SUPABASE_URL.replace('https://','').split('.')[0];
+  const log           = [];
 
-  try {
-    const { data: existing, error: checkErr } = await supabase
-      .from('settings')
-      .select('id')
-      .eq('id', 1)
-      .maybeSingle();
-
-    if (checkErr && checkErr.code === '42P01') {
-      return res.status(500).json({
-        error: 'Tables do not exist yet.',
-        fix: 'Run setup.sql in Supabase SQL Editor first, then visit /api/setup again.',
-      });
-    }
-
-    if (checkErr) {
-      return res.status(500).json({ error: checkErr.message });
-    }
-
-    if (!existing) {
-      const hash = await bcrypt.hash('iptv2026', 10);
-      const { error: insertErr } = await supabase.from('settings').insert({
-        id: 1,
-        site_name: 'Zenvo Stream',
-        site_logo: '',
-        hero_title: 'Live TV. Reimagined.',
-        hero_subtitle: 'Stream 1000+ premium channels worldwide in stunning quality.',
-        maintenance_mode: false,
-        featured_id: '',
-        admin_username: 'admin',
-        admin_password_hash: hash,
-        categories: ['Bangla','Sports','News','Movies','Kids','Music','Religious','Documentary','Indian','Live','Other'],
-        countries: [
-          {name:'Bangladesh',code:'🇧🇩'},{name:'India',code:'🇮🇳'},
-          {name:'Pakistan',code:'🇵🇰'},{name:'USA',code:'🇺🇸'},
-          {name:'UK',code:'🇬🇧'},{name:'UAE',code:'🇦🇪'},{name:'Global',code:'🌐'}
-        ],
-      });
-      if (insertErr) {
-        log.push('❌ Settings seed failed: ' + insertErr.message);
-      } else {
-        log.push('✅ Settings seeded — login: admin / iptv2026');
+  // Helper — run raw SQL via Supabase SQL over HTTP
+  async function runSQL(sql) {
+    const https = require('https');
+    return new Promise((resolve) => {
+      const body = JSON.stringify({ query: sql });
+      // Try /rest/v1/sql (some projects) then /pg (others)
+      const paths = [
+        `/rest/v1/sql`,
+        `/pg/query`,
+      ];
+      let idx = 0;
+      function attempt() {
+        if (idx >= paths.length) return resolve({ ok: false, msg: 'All paths failed' });
+        const options = {
+          hostname: `${projectRef}.supabase.co`,
+          path: paths[idx++],
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SERVICE_KEY,
+            'Authorization': `Bearer ${SERVICE_KEY}`,
+            'Content-Length': Buffer.byteLength(body),
+          },
+        };
+        const req = https.request(options, (res2) => {
+          let d = '';
+          res2.on('data', c => d += c);
+          res2.on('end', () => {
+            if (res2.statusCode >= 200 && res2.statusCode < 300) resolve({ ok: true, msg: d });
+            else attempt(); // try next path
+          });
+        });
+        req.on('error', () => attempt());
+        req.write(body);
+        req.end();
       }
-    } else {
-      log.push('✅ Settings already exist');
-    }
-
-    const { error: chErr } = await supabase.from('channels').select('id').limit(1);
-    if (chErr) {
-      log.push('❌ Channels table error: ' + chErr.message);
-    } else {
-      log.push('✅ Channels table OK');
-    }
-
-    await supabase.from('settings').update({ maintenance_mode: false }).eq('id', 1);
-    log.push('✅ Maintenance mode disabled');
-
-    return res.json({ success: true, log, message: 'Setup complete! Login: admin / iptv2026' });
-
-  } catch (err) {
-    return res.status(500).json({ error: err.message, log });
+      attempt();
+    });
   }
+
+  // Step 1 — Check tables
+  const { error: checkErr } = await supabase.from('settings').select('id').limit(1);
+  const tablesMissing = checkErr && (checkErr.code === 'PGRST205' || checkErr.message.includes('schema cache'));
+
+  if (tablesMissing) {
+    log.push('⚠️ Tables missing — creating...');
+    const r = await runSQL(`
+      CREATE TABLE IF NOT EXISTS channels (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        name TEXT NOT NULL, url TEXT DEFAULT '',
+        category TEXT DEFAULT 'Other', country TEXT DEFAULT '🌐',
+        logo TEXT DEFAULT '', active BOOLEAN DEFAULT true,
+        status TEXT DEFAULT 'unknown', last_checked TIMESTAMPTZ,
+        added_at TIMESTAMPTZ DEFAULT now()
+      );
+      CREATE TABLE IF NOT EXISTS settings (
+        id INTEGER PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+        site_name TEXT DEFAULT 'Zenvo Stream', site_logo TEXT DEFAULT '',
+        hero_title TEXT DEFAULT 'Live TV. Reimagined.',
+        hero_subtitle TEXT DEFAULT 'Stream 1000+ premium channels worldwide.',
+        maintenance_mode BOOLEAN DEFAULT false, featured_id TEXT DEFAULT '',
+        admin_username TEXT DEFAULT 'admin',
+        admin_password_hash TEXT NOT NULL DEFAULT '',
+        categories JSONB DEFAULT '[]', countries JSONB DEFAULT '[]'
+      );
+      ALTER TABLE channels DISABLE ROW LEVEL SECURITY;
+      ALTER TABLE settings  DISABLE ROW LEVEL SECURITY;
+    `);
+
+    if (r.ok) {
+      log.push('✅ Tables created!');
+    } else {
+      log.push('❌ Auto-create failed: ' + r.msg);
+      // Return HTML with manual SQL
+      return res.send(`<!DOCTYPE html><html><head><title>Setup</title>
+<style>body{font-family:monospace;background:#111;color:#0f0;padding:40px;max-width:900px;margin:0 auto}
+h1{color:#fff}pre{background:#1a1a1a;padding:20px;border-radius:8px;overflow-x:auto;white-space:pre-wrap;color:#0f0;font-size:13px}
+.btn{display:inline-block;background:#6366f1;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;margin:10px 0;cursor:pointer;border:none;font-size:15px}
+.err{color:#f87171}.ok{color:#4ade80}</style></head><body>
+<h1>🚀 Zenvo Stream Setup</h1>
+<p class="err">❌ Automatic table creation failed. Please run this SQL manually:</p>
+<p>👉 <a href="https://supabase.com/dashboard/project/${projectRef}/sql/new" target="_blank" style="color:#818cf8">
+Open Supabase SQL Editor ↗</a></p>
+<p>Copy the SQL below → Paste in editor → Click <strong>Run</strong></p>
+<pre>CREATE TABLE IF NOT EXISTS channels (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL, url TEXT DEFAULT '',
+  category TEXT DEFAULT 'Other', country TEXT DEFAULT '🌐',
+  logo TEXT DEFAULT '', active BOOLEAN DEFAULT true,
+  status TEXT DEFAULT 'unknown', last_checked TIMESTAMPTZ,
+  added_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS settings (
+  id INTEGER PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+  site_name TEXT DEFAULT 'Zenvo Stream', site_logo TEXT DEFAULT '',
+  hero_title TEXT DEFAULT 'Live TV. Reimagined.',
+  hero_subtitle TEXT DEFAULT 'Stream 1000+ premium channels worldwide.',
+  maintenance_mode BOOLEAN DEFAULT false, featured_id TEXT DEFAULT '',
+  admin_username TEXT DEFAULT 'admin',
+  admin_password_hash TEXT NOT NULL DEFAULT '',
+  categories JSONB DEFAULT '[]', countries JSONB DEFAULT '[]'
+);
+ALTER TABLE channels DISABLE ROW LEVEL SECURITY;
+ALTER TABLE settings DISABLE ROW LEVEL SECURITY;</pre>
+<p>After running SQL, <a href="/api/init" class="btn">Click here to continue setup ↗</a></p>
+</body></html>`);
+    }
+  } else {
+    log.push('✅ Tables exist');
+  }
+
+  // Step 2 — Seed settings
+  const { data: existing } = await supabase.from('settings').select('id').eq('id',1).maybeSingle();
+  if (!existing) {
+    const hash = await bcrypt.hash('iptv2026', 10);
+    const { error: ie } = await supabase.from('settings').insert({
+      id:1, site_name:'Zenvo Stream', site_logo:'',
+      hero_title:'Live TV. Reimagined.',
+      hero_subtitle:'Stream 1000+ premium channels worldwide in stunning quality.',
+      maintenance_mode:false, featured_id:'', admin_username:'admin',
+      admin_password_hash:hash,
+      categories:['Bangla','Sports','News','Movies','Kids','Music','Religious','Documentary','Indian','Live','Other'],
+      countries:[
+        {name:'Bangladesh',code:'🇧🇩'},{name:'India',code:'🇮🇳'},
+        {name:'Pakistan',code:'🇵🇰'},{name:'USA',code:'🇺🇸'},
+        {name:'UK',code:'🇬🇧'},{name:'UAE',code:'🇦🇪'},{name:'Global',code:'🌐'}
+      ],
+    });
+    if (ie) log.push('❌ Seed error: ' + ie.message);
+    else    log.push('✅ Admin created → admin / iptv2026');
+  } else {
+    await supabase.from('settings').update({ maintenance_mode: false }).eq('id',1);
+    log.push('✅ Settings OK (maintenance OFF)');
+  }
+
+  // Step 3 — Return result page
+  const allOk = log.every(l => !l.startsWith('❌'));
+  res.send(`<!DOCTYPE html><html><head><title>Setup Complete</title>
+<style>body{font-family:system-ui;background:#111;color:#fff;padding:40px;max-width:600px;margin:0 auto;text-align:center}
+.ok{color:#4ade80;font-size:18px;line-height:2}.err{color:#f87171;font-size:18px;line-height:2}
+.btn{display:inline-block;background:#6366f1;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;margin:20px 8px;font-size:16px;font-weight:600}
+.btn2{background:#374151}h1{font-size:48px;margin:0}h2{color:#a5b4fc}</style></head>
+<body>
+<h1>${allOk ? '🎉' : '⚠️'}</h1>
+<h2>${allOk ? 'Setup Complete!' : 'Setup Partial'}</h2>
+<div>${log.map(l => `<p class="${l.startsWith('❌') ? 'err' : 'ok'}">${l}</p>`).join('')}</div>
+${allOk ? `
+<p style="color:#9ca3af;margin:20px 0">Login credentials: <strong style="color:#fff">admin / iptv2026</strong></p>
+<a href="/admin" class="btn">Go to Admin Panel →</a>
+<a href="/" class="btn btn2">View Site →</a>
+` : `<a href="/api/init" class="btn">Try Again →</a>`}
+</body></html>`);
 });
 
 // ----------------------------- Admin Channel Routes ----------------------------- //
