@@ -252,41 +252,80 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
   }
 });
 
-// ----------------------------- Debug Route (remove after fixing) -------- //
-app.get('/api/debug', async (req, res) => {
-  const result = {
-    supabaseConfigured: !!(SUPABASE_URL && SUPABASE_SERVICE_KEY),
-    supabaseUrl: SUPABASE_URL ? SUPABASE_URL.slice(0, 30) + '...' : 'NOT SET',
-    serviceKeySet: !!SUPABASE_SERVICE_KEY,
-  };
-
-  if (supabase) {
-    try {
-      const { data, error } = await supabase
-        .from('settings')
-        .select('id, admin_username, maintenance_mode, site_name')
-        .eq('id', 1)
-        .maybeSingle();
-      result.settingsTableExists = !error;
-      result.settingsRow = error ? null : data;
-      result.settingsError = error ? error.message : null;
-    } catch (e) {
-      result.settingsError = e.message;
-    }
-
-    try {
-      const { count, error } = await supabase
-        .from('channels')
-        .select('*', { count: 'exact', head: true });
-      result.channelsTableExists = !error;
-      result.channelsCount = error ? null : count;
-      result.channelsError = error ? error.message : null;
-    } catch (e) {
-      result.channelsError = e.message;
-    }
+// ----------------------------- One-time Setup Route ----------------------------- //
+// Visit /api/setup once to create tables and seed data automatically
+app.get('/api/setup', async (req, res) => {
+  if (!supabase) {
+    return res.status(500).json({ error: 'Supabase not configured. Set env vars first.' });
   }
 
-  res.json(result);
+  const log = [];
+
+  try {
+    // ── Try to seed settings (table must already exist via setup.sql) ──
+    const { data: existing, error: checkErr } = await supabase
+      .from('settings')
+      .select('id')
+      .eq('id', 1)
+      .maybeSingle();
+
+    if (checkErr && checkErr.code === '42P01') {
+      return res.status(500).json({
+        error: 'Tables do not exist yet.',
+        fix: 'Run setup.sql in Supabase SQL Editor first, then visit /api/setup again.',
+        sql_file: 'Copy the SQL from the setup.sql file in the project root.',
+      });
+    }
+
+    if (checkErr) {
+      return res.status(500).json({ error: checkErr.message });
+    }
+
+    if (!existing) {
+      const hash = await bcrypt.hash('iptv2026', 10);
+      const { error: insertErr } = await supabase.from('settings').insert({
+        id: 1,
+        site_name: 'Zenvo Stream',
+        site_logo: '',
+        hero_title: 'Live TV. Reimagined.',
+        hero_subtitle: 'Stream 1000+ premium channels worldwide in stunning quality.',
+        maintenance_mode: false,
+        featured_id: '',
+        admin_username: 'admin',
+        admin_password_hash: hash,
+        categories: ['Bangla','Sports','News','Movies','Kids','Music','Religious','Documentary','Indian','Live','Other'],
+        countries: [
+          {name:'Bangladesh',code:'🇧🇩'},{name:'India',code:'🇮🇳'},
+          {name:'Pakistan',code:'🇵🇰'},{name:'USA',code:'🇺🇸'},
+          {name:'UK',code:'🇬🇧'},{name:'UAE',code:'🇦🇪'},{name:'Global',code:'🌐'}
+        ],
+      });
+      if (insertErr) {
+        log.push('❌ Settings seed failed: ' + insertErr.message);
+      } else {
+        log.push('✅ Settings seeded — login: admin / iptv2026');
+      }
+    } else {
+      log.push('✅ Settings already exist');
+    }
+
+    // ── Check channels table ──
+    const { error: chErr } = await supabase.from('channels').select('id').limit(1);
+    if (chErr) {
+      log.push('❌ Channels table error: ' + chErr.message);
+    } else {
+      log.push('✅ Channels table OK');
+    }
+
+    // ── Ensure maintenance_mode is false ──
+    await supabase.from('settings').update({ maintenance_mode: false }).eq('id', 1);
+    log.push('✅ Maintenance mode disabled');
+
+    return res.json({ success: true, log, message: 'Setup complete! You can now login with admin / iptv2026' });
+
+  } catch (err) {
+    return res.status(500).json({ error: err.message, log });
+  }
 });
 
 // ----------------------------- Admin Channel Routes ----------------------------- //
