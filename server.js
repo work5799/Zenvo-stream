@@ -3,6 +3,9 @@
  * Node.js + Express backend with Supabase (PostgreSQL + Storage)
  */
 
+// Load .env for local development (Vercel uses dashboard env vars)
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -253,8 +256,14 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
 });
 
 // ----------------------------- One-time Setup Route ----------------------------- //
-// Visit /api/setup once to create tables and seed data automatically
+// Protected: requires ?secret=YOUR_JWT_SECRET in query
 app.get('/api/setup', async (req, res) => {
+  // Only accessible with the correct secret key
+  const provided = req.query.secret || '';
+  if (!provided || provided !== JWT_SECRET) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
   if (!supabase) {
     return res.status(500).json({ error: 'Supabase not configured. Set env vars first.' });
   }
@@ -262,7 +271,6 @@ app.get('/api/setup', async (req, res) => {
   const log = [];
 
   try {
-    // ── Try to seed settings (table must already exist via setup.sql) ──
     const { data: existing, error: checkErr } = await supabase
       .from('settings')
       .select('id')
@@ -273,7 +281,6 @@ app.get('/api/setup', async (req, res) => {
       return res.status(500).json({
         error: 'Tables do not exist yet.',
         fix: 'Run setup.sql in Supabase SQL Editor first, then visit /api/setup again.',
-        sql_file: 'Copy the SQL from the setup.sql file in the project root.',
       });
     }
 
@@ -309,7 +316,6 @@ app.get('/api/setup', async (req, res) => {
       log.push('✅ Settings already exist');
     }
 
-    // ── Check channels table ──
     const { error: chErr } = await supabase.from('channels').select('id').limit(1);
     if (chErr) {
       log.push('❌ Channels table error: ' + chErr.message);
@@ -317,11 +323,10 @@ app.get('/api/setup', async (req, res) => {
       log.push('✅ Channels table OK');
     }
 
-    // ── Ensure maintenance_mode is false ──
     await supabase.from('settings').update({ maintenance_mode: false }).eq('id', 1);
     log.push('✅ Maintenance mode disabled');
 
-    return res.json({ success: true, log, message: 'Setup complete! You can now login with admin / iptv2026' });
+    return res.json({ success: true, log, message: 'Setup complete! Login: admin / iptv2026' });
 
   } catch (err) {
     return res.status(500).json({ error: err.message, log });

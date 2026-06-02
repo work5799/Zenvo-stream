@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zenvo Stream — DB Setup</title>
+  <style>
+    body { font-family: monospace; background: #0f0f0f; color: #0f0; padding: 40px; }
+    h2 { color: #fff; }
+    pre { background: #1a1a1a; padding: 20px; border-radius: 8px; white-space: pre-wrap; }
+    button { background: #6366f1; color: #fff; border: none; padding: 14px 28px; font-size: 16px; border-radius: 8px; cursor: pointer; margin: 10px 0; }
+    button:hover { background: #4f46e5; }
+    .ok { color: #22c55e; }
+    .err { color: #ef4444; }
+    input { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 6px; width: 400px; margin: 6px 0; }
+    label { display: block; color: #aaa; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>🚀 Zenvo Stream — One-Click Database Setup</h2>
+  <p style="color:#aaa">This will create tables in your Supabase database and seed the default admin account.</p>
+
+  <label>Supabase URL:</label>
+  <input id="url" value="https://ztgqoqwihznpzvdtkqac.supabase.co" />
+
+  <label>Service Role Key:</label>
+  <input id="key" type="password" placeholder="Paste your service_role key here" />
+
+  <br/><br/>
+  <button onclick="runSetup()">▶ Run Setup Now</button>
+
+  <pre id="log">Waiting...</pre>
+
+  <script>
+    const BCRYPT_HASH = '$2b$10$9G8GTvQaTvSR1KTHWhuGZuIGuv54aQBClyZnvT7XNxdKH8iJFaq/y'; // iptv2026
+
+    function log(msg, type='') {
+      const el = document.getElementById('log');
+      el.innerHTML += `<span class="${type}">${msg}</span>\n`;
+    }
+
+    async function sb(url, key, table, method, body) {
+      const res = await fetch(`${url}/rest/v1/${table}`, {
+        method,
+        headers: {
+          'apikey': key,
+          'Authorization': `Bearer ${key}`,
+          'Content-Type': 'application/json',
+          'Prefer': method === 'POST' ? 'return=representation' : 'return=minimal',
+        },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      return { status: res.status, data: await res.json().catch(() => null) };
+    }
+
+    async function runSetup() {
+      document.getElementById('log').innerHTML = '';
+      const url = document.getElementById('url').value.trim().replace(/\/$/, '');
+      const key = document.getElementById('key').value.trim();
+
+      if (!key) { log('❌ Please enter your service_role key', 'err'); return; }
+
+      log('🔄 Connecting to Supabase...');
+
+      // Test connection
+      const test = await fetch(`${url}/rest/v1/`, {
+        headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }
+      });
+      if (!test.ok) { log('❌ Cannot connect. Check URL and key.', 'err'); return; }
+      log('✅ Connected!', 'ok');
+
+      // Check if settings table exists
+      log('🔄 Checking tables...');
+      const check = await sb(url, key, 'settings?select=id&limit=1', 'GET');
+
+      if (check.status === 404 || (check.data && check.data.message && check.data.message.includes('does not exist'))) {
+        log('❌ Tables missing! Cannot create via REST API.', 'err');
+        log('');
+        log('👉 Please run this SQL in Supabase Dashboard → SQL Editor:', '');
+        log('   https://supabase.com/dashboard/project/ztgqoqwihznpzvdtkqac/sql', '');
+        log('');
+        log('--- COPY THIS SQL ---');
+        log(`
+CREATE TABLE IF NOT EXISTS channels (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL, url TEXT DEFAULT '',
+  category TEXT DEFAULT 'Other', country TEXT DEFAULT '🌐',
+  logo TEXT DEFAULT '', active BOOLEAN DEFAULT true,
+  status TEXT DEFAULT 'unknown', last_checked TIMESTAMPTZ,
+  added_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS settings (
+  id INTEGER PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+  site_name TEXT DEFAULT 'Zenvo Stream', site_logo TEXT DEFAULT '',
+  hero_title TEXT DEFAULT 'Live TV. Reimagined.',
+  hero_subtitle TEXT DEFAULT 'Stream 1000+ premium channels worldwide.',
+  maintenance_mode BOOLEAN DEFAULT false, featured_id TEXT DEFAULT '',
+  admin_username TEXT DEFAULT 'admin', admin_password_hash TEXT NOT NULL DEFAULT '',
+  categories JSONB DEFAULT '[]', countries JSONB DEFAULT '[]'
+);
+ALTER TABLE channels DISABLE ROW LEVEL SECURITY;
+ALTER TABLE settings DISABLE ROW LEVEL SECURITY;`);
+        log('--- END SQL ---');
+        log('');
+        log('After running SQL, click the button again.', '');
+        return;
+      }
+
+      // Seed settings if empty
+      const existing = await sb(url, key, 'settings?id=eq.1&select=id', 'GET');
+      if (!existing.data || existing.data.length === 0) {
+        log('🔄 Seeding default settings...');
+        const insert = await sb(url, key, 'settings', 'POST', {
+          id: 1,
+          site_name: 'Zenvo Stream',
+          site_logo: '',
+          hero_title: 'Live TV. Reimagined.',
+          hero_subtitle: 'Stream 1000+ premium channels worldwide in stunning quality.',
+          maintenance_mode: false,
+          featured_id: '',
+          admin_username: 'admin',
+          admin_password_hash: BCRYPT_HASH,
+          categories: ['Bangla','Sports','News','Movies','Kids','Music','Religious','Documentary','Indian','Live','Other'],
+          countries: [
+            {name:'Bangladesh',code:'🇧🇩'},{name:'India',code:'🇮🇳'},
+            {name:'Pakistan',code:'🇵🇰'},{name:'USA',code:'🇺🇸'},
+            {name:'UK',code:'🇬🇧'},{name:'UAE',code:'🇦🇪'},{name:'Global',code:'🌐'}
+          ]
+        });
+        if (insert.status === 201) {
+          log('✅ Admin account created: admin / iptv2026', 'ok');
+        } else {
+          log('❌ Seed failed: ' + JSON.stringify(insert.data), 'err');
+        }
+      } else {
+        // Make sure maintenance_mode is off
+        await sb(url, key, 'settings?id=eq.1', 'PATCH', { maintenance_mode: false });
+        log('✅ Settings already exist. Maintenance mode disabled.', 'ok');
+      }
+
+      log('');
+      log('🎉 Setup complete!', 'ok');
+      log('Login: admin / iptv2026', 'ok');
+      log('');
+      log('Now go to your site and login at /admin', 'ok');
+    }
+  </script>
+</body>
+</html>
